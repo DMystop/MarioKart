@@ -2,6 +2,8 @@
 
 
 #include "KartPawn.h"
+#include "GPE/CheckPoint.h"
+#include "GPE/RaceSubSystem.h"
 
 // Sets default values
 AKartPawn::AKartPawn()
@@ -31,4 +33,19 @@ void AKartPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
+
+//void AKartPawn::SetCurrentCheckpoint(ACheckPoint* _checkpoint)
+//{
+//	if (!_checkpoint || !GetGameInstance()) return;
+//
+//	URaceSubsystem* _raceSubsystem = GetGameInstance()->GetSubsystem<URaceSubsystem>();
+//	if (!_raceSubsystem) return;
+//
+//	// Trouver l'index du checkpoint actuel
+//	int _newIndex = _raceSubsystem->GetCheckpoints().Find(Checkpoint);
+//	if (_newIndex != INDEX_NONE)
+//	{
+//		currentCheckpointIndex = _newIndex;
+//	}
+//}
 

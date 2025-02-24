@@ -6,10 +6,19 @@
 #include "GameFramework/Pawn.h"
 #include "KartPawn.generated.h"
 
+class ACheckPoint;
 UCLASS()
 class MARIOKART_API AKartPawn : public APawn
 {
 	GENERATED_BODY()
+
+protected:
+//	// Index du dernier checkpoint atteint
+//	int currentCheckpointIndex = 0;
+//
+//public:
+//	// Met à jour le checkpoint actuel
+//	void SetCurrentCheckpoint(ACheckPoint* Checkpoint);
 
 public:
 	// Sets default values for this pawn's properties
