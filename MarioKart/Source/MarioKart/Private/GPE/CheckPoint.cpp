@@ -4,10 +4,7 @@
 ACheckPoint::ACheckPoint()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	collisionBox = CreateDefaultSubobject<UBoxComponent>("CollisionBox");
-	RootComponent = collisionBox;
-	collisionBox->SetCollisionProfileName("Trigger");
-
+	OnActorBeginOverlap.AddDynamic(this, &ACheckPoint::OnCheckPointOverlap);
 }
 
 void ACheckPoint::BeginPlay()
@@ -15,15 +12,6 @@ void ACheckPoint::BeginPlay()
 	Super::BeginPlay();
 	Init();
 	
-}
-
-void ACheckPoint::NotifyActorBeginOverlap(AActor* OtherActor)
-{
-	/*AKartPawn* _playerKart = Cast<AKartPawn>(OtherActor);
-	if (_playerKart)
-	{
-		_playerKart->SetCurrentCheckpoint(this);
-	}*/
 }
 
 void ACheckPoint::Init()
@@ -34,6 +22,15 @@ void ACheckPoint::Init()
 		{
 			_raceSubsystem->RegisterCheckpoint(this);
 		}
+	}*/
+}
+
+void ACheckPoint::OnCheckPointOverlap(AActor* _overlappedActor, AActor* _otherActor)
+{
+	/*AKartPawn* _playerKart = Cast<AKartPawn>(OtherActor);
+	if (_playerKart)
+	{
+		_playerKart->SetCurrentCheckpoint(this);
 	}*/
 }
 
