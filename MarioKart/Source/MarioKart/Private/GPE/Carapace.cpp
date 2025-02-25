@@ -3,18 +3,10 @@
 ACarapace::ACarapace()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	RootComponent = CreateDefaultSubobject<USceneComponent>("Root");
+	mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 
-	movement = CreateDefaultSubobject<UProjectileMovementComponent>("MovementComponent");
-	movement->InitialSpeed = 1200.0f;
-	movement->MaxSpeed = 1200.0f;
-	movement->bShouldBounce = true;
-	movement->Bounciness = 0.8f;
-	movement->Friction = 0.2f;
-	movement->ProjectileGravityScale = 0.0f; 
-
-	mesh->SetSimulatePhysics(true);
-	//mesh->SetCollisionProfileName("BlockAll");
-
+	mesh->SetupAttachment(RootComponent);
 }
 
 void ACarapace::BeginPlay()
@@ -26,7 +18,8 @@ void ACarapace::BeginPlay()
 void ACarapace::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	Rotate(DeltaTime);
+	Move(DeltaTime);
+	//Rotate(DeltaTime);
 
 }
 
@@ -36,21 +29,32 @@ void ACarapace::Rotate(float _delta)
 	AddActorLocalRotation(_rotationDelta, false, nullptr, ETeleportType::None);
 }
 
+void ACarapace::Move(float _delta)
+{
+	FVector _newLocation = GetActorLocation() + (GetActorForwardVector() * moveSpeed * _delta);
+	SetActorLocation(_newLocation);
+}
+
 void ACarapace::NotifyActorBeginOverlap(AActor* OtherActor)
 {
-	Super::NotifyActorBeginOverlap(OtherActor);
 	if (!OtherActor) return;
 	//if otherActor = Cast<AKartPawn> => stun => destroy
 
 
 }
 
-void ACarapace::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
-{
-	currentBounces++;
-	if (currentBounces >= maxBounces)
-	{
-		Destroy();
-	}
-}
+//void ACarapace::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
+//{
+//	currentBounces++;
+//	if (currentBounces >= maxBounces)
+//	{
+//		Destroy();
+//		return;
+//	}
+//	FVector _currentVelocity = GetVelocity();
+//	FVector _reflectedVelocity = FMath::GetReflectionVector(_currentVelocity, HitNormal);
+//	SetActorRotation(_reflectedVelocity.Rotation());
+//	FVector _newVelocity = _reflectedVelocity.GetSafeNormal() * moveSpeed;
+//	GetRootComponent()->ComponentVelocity = _newVelocity;
+//}
 

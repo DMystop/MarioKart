@@ -3,16 +3,15 @@
 AItem::AItem()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	RootComponent = CreateDefaultSubobject<USceneComponent>("Root");
+	/*RootComponent = CreateDefaultSubobject<USceneComponent>("Root");
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 
-	mesh->SetupAttachment(RootComponent);
+	mesh->SetupAttachment(RootComponent);*/
 
 }
 
-void AItem::NotifyActorBeginOverlap(AActor* OtherActor)
-{
-}
+
+
 
 
 
