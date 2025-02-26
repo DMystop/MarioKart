@@ -5,6 +5,8 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
+				"D:/ProjetUnreal/MarioKart/MarioKart/Content/Blueprints/GPE/BP_Carapace.uasset",
+				"D:/ProjetUnreal/MarioKart/MarioKart/Content/Levels/LVL_RaphLevel.umap",
 				"C:/Unreal/MarioKart/MarioKart/Content/Levels/LVL_RaphLevel.umap",
 				"C:/Unreal/MarioKart/MarioKart/Content/Levels/LVL_01.umap",
 				"C:/Unreal/MarioKart/MarioKart/Content/FBX/Shell/02_-_Default.uasset",
