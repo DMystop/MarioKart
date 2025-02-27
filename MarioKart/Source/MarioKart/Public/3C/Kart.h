@@ -10,6 +10,7 @@
 #include "Kart.generated.h"
 
 class UKartMovementComponent;
+class UInventoryComponent;
 USTRUCT()
 struct FInput
 {
@@ -19,6 +20,7 @@ struct FInput
 	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>turnAction;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>brakeAction;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>boostAction;
+	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>useAction;
 
 };
 
@@ -32,6 +34,7 @@ class MARIOKART_API AKart : public APawn
 
 	UPROPERTY(EditAnywhere)FInput input;
 	UPROPERTY(EditAnywhere)TObjectPtr<UKartMovementComponent>movement;
+	UPROPERTY(EditAnywhere)TObjectPtr<UInventoryComponent>inventory;
 	
 
 public:

@@ -5,6 +5,8 @@
 #include <EnhancedInputSubsystems.h>
 #include <EnhancedInputComponent.h>
 #include"3C/KartMovementComponent.h"
+#include "3C/InventoryComponent.h"
+
 
 // Sets default values
 AKart::AKart()
@@ -18,12 +20,14 @@ AKart::AKart()
 
 
 	movement = CreateDefaultSubobject<UKartMovementComponent>("Movemnt");
+	inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 
 	arm->SetupAttachment(RootComponent);
 	camera->SetupAttachment(arm);
 	mesh->SetupAttachment(RootComponent);
 
 	AddOwnedComponent(movement);
+	AddOwnedComponent(inventory);
 
 
 }
@@ -57,6 +61,7 @@ void AKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	_input->BindAction(input.turnAction, ETriggerEvent::Triggered, movement.Get(), &UKartMovementComponent::Rotate);
 	_input->BindAction(input.turnAction, ETriggerEvent::Completed, movement.Get(), &UKartMovementComponent::Rotate);
 	_input->BindAction(input.boostAction, ETriggerEvent::Started, movement.Get(), &UKartMovementComponent::Boost);
+	_input->BindAction(input.useAction, ETriggerEvent::Started, inventory.Get(), &UInventoryComponent::UseItem);
 
 }
 
