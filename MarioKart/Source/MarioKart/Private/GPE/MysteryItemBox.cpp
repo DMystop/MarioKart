@@ -30,12 +30,16 @@ void AMysteryItemBox::Tick(float DeltaTime)
 
 void AMysteryItemBox::Init()
 {
-	if (mushroomClass)
+	/*if (mushroomClass)
 		availablesItems.Add(NewObject<AItem>(this, mushroomClass));
 	if (bananaClass)
 		availablesItems.Add(NewObject<AItem>(this, bananaClass));
 	if (carapaceClass)
-		availablesItems.Add(NewObject<AItem>(this, carapaceClass));
+		availablesItems.Add(NewObject<AItem>(this, carapaceClass));*/
+
+	availablesItems.Add(mushroomClass);
+	availablesItems.Add(bananaClass);
+	availablesItems.Add(carapaceClass);
 }
 
 void AMysteryItemBox::Levitate(float _delta)
@@ -55,8 +59,15 @@ void AMysteryItemBox::Rotate(float _delta)
 
 
 
-AItem* AMysteryItemBox::GiveRandomItem()
+TSubclassOf<AItem> AMysteryItemBox::GiveRandomItem()
 {
+	/*if (!IsValidItemArray())return nullptr;
+
+	int _count = availablesItems.Num() - 1;
+	int _randomIndex = FMath::RandRange(0, _count);
+
+	return availablesItems[_randomIndex];*/
+
 	if (!IsValidItemArray())return nullptr;
 
 	int _count = availablesItems.Num() - 1;

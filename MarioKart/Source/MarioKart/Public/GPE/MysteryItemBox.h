@@ -13,7 +13,7 @@ class MARIOKART_API AMysteryItemBox : public AActor
 	UPROPERTY(EditAnywhere)float rotationSpeed = 250.0f;
 	UPROPERTY(EditAnywhere)float levitateSpeed = 2.0f;
 	UPROPERTY(EditAnywhere)float levitateAmplitude = 40.0f;
-	UPROPERTY() TArray<TObjectPtr<AItem>> availablesItems;
+	UPROPERTY() TArray<TSubclassOf<AItem>> availablesItems;
 	UPROPERTY() TSubclassOf<AItem> mushroomClass;
 	UPROPERTY() TSubclassOf<AItem> carapaceClass;
 	UPROPERTY() TSubclassOf<AItem> bananaClass;
@@ -35,7 +35,7 @@ protected:
 	void Init();
 	void Levitate(float _delta);
 	void Rotate(float _delta);
-	AItem* GiveRandomItem();
+	TSubclassOf<AItem> GiveRandomItem();
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
 };
