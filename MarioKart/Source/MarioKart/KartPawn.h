@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "KartPawn.generated.h"
 
+
 UCLASS()
 class MARIOKART_API AKartPawn : public APawn
 {

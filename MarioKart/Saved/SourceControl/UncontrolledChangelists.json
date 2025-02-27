@@ -7,6 +7,13 @@
 			"files": [
 				"E:/P2 Medy/Unity/MarioKart/MarioKart/Content/Level_Medy.umap",
 				"E:/P2 Medy/Unity/MarioKart/MarioKart/Content/Levels/Level_Medy.umap",
+				"E:/P2 Medy/Unity/MarioKart/MarioKart/Content/BPMedy/BP_Kart.uasset",
+				"E:/P2 Medy/Unity/MarioKart/MarioKart/Content/BPMedy/Input/IA_Accelerate.uasset",
+				"E:/P2 Medy/Unity/MarioKart/MarioKart/Content/BPMedy/Input/IA_Brake.uasset",
+				"E:/P2 Medy/Unity/MarioKart/MarioKart/Content/BPMedy/Input/IA_Turn.uasset",
+				"E:/P2 Medy/Unity/MarioKart/MarioKart/Content/BPMedy/Input/IMC_Kart.uasset",
+				"E:/P2 Medy/Unity/MarioKart/MarioKart/Content/Blueprints/NewGameMode.uasset",
+				"E:/P2 Medy/Unity/MarioKart/MarioKart/Content/Levels/LVL_01.umap",
 				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Levels/LVL_01.umap"
 			]
 		}
