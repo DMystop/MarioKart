@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GPE/Item.h"
+class AKart;
 #include "Banana.generated.h"
 
 UCLASS()
@@ -14,6 +15,7 @@ public:
 	ABanana();
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void Use(AKart* _targetKart)override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
 };

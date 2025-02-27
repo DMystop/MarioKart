@@ -1,4 +1,6 @@
 #include "GPE/BoostingZone.h"
+#include "3C/Kart.h"
+#include "3C/KartMovementComponent.h"
 
 ABoostingZone::ABoostingZone()
 {
@@ -25,6 +27,10 @@ void ABoostingZone::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	if (!OtherActor)return;
 
-	//TODO Cast to player and boost
+	AKart* _kart = Cast < AKart>(OtherActor);
+	if (!_kart)return;
+	UKartMovementComponent* _movement = _kart->GetComponentByClass<UKartMovementComponent>();
+	if (!_movement)return;
+	_movement->Boost(boostValue, boostTime);
 }
 

@@ -9,10 +9,13 @@ UCLASS()
 class MARIOKART_API AMushroom : public AItem
 {
 	GENERATED_BODY()
+	UPROPERTY(EditAnywhere) float boostValue = 150.0f;
+	UPROPERTY(EditAnywhere) float boostTime = 3.0f;
 	
 public:	
 	AMushroom();
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void Use(AKart* _targetKart)override;
 
 };

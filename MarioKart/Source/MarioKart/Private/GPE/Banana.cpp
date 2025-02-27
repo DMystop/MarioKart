@@ -1,4 +1,5 @@
 #include "GPE/Banana.h"
+#include "3C/Kart.h"
 
 ABanana::ABanana()
 {
@@ -19,6 +20,15 @@ void ABanana::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ABanana::Use(AKart* _targetKart)
+{
+	//if (!_targetKart) return;
+
+	//int _shootDirection = _targetKart->GetShootDirection();
+	//FVector _spawnLocation = _targetKart->GetActorLocation() + _targetKart->GetActorForwardVector() * 100.0f * _shootDirection;
+	//SetActorLocation(_spawnLocation);
 }
 
 void ABanana::NotifyActorBeginOverlap(AActor* OtherActor)

@@ -1,4 +1,5 @@
 #include "GPE/Carapace.h"
+#include "3C/Kart.h"
 #include <Kismet/KismetSystemLibrary.h>
 
 ACarapace::ACarapace()
@@ -19,9 +20,42 @@ void ACarapace::BeginPlay()
 void ACarapace::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (!canMove)return;
 	Move(DeltaTime);
 	Rotate(DeltaTime);
 
+}
+
+void ACarapace::Use(AKart* _targetKart)
+{
+	//if (!_targetKart) return;
+
+	////get the shoot dir
+	//int _shootDirection = _targetKart->GetShootDirection();
+	//// Place carapace in front or behind
+	//FVector _spawnLocation = _targetKart->GetActorLocation() + _targetKart->GetActorForwardVector() * 100.0f * _shootDirection;
+	//SetActorLocation(_spawnLocation);
+	//// orientation
+	//SetActorRotation(_targetKart->GetActorRotation());
+	//if (_shootDirection == -1)
+	//{
+	//	// if shoot behind, inverse move dir
+	//	SetActorRotation(GetActorRotation() + FRotator(0, 180, 0));
+	//}
+
+	//mesh->IgnoreActorWhenMoving(_targetKart, true);
+	//dir = _shootDirection;
+	//canMove = true;
+
+
+	//TODO IN THE KART
+	/*UPROPERTY(EditAnywhere)int shootDirection = 1;
+	FORCEINLINE int GetShootDirection() const { return shootDirection; }
+
+	void ToggleShootDirection(const FInputActionValue& _value)
+	{
+		shootDirection *= -1
+	}*/
 }
 
 void ACarapace::Rotate(float _delta)
@@ -33,7 +67,7 @@ void ACarapace::Rotate(float _delta)
 
 void ACarapace::Move(float _delta)
 {
-	FVector _newLocation = GetActorLocation() + (GetActorForwardVector() * moveSpeed * _delta);
+	FVector _newLocation = GetActorLocation() + (GetActorForwardVector() * moveSpeed * _delta * dir);
 	SetActorLocation(_newLocation);
 }
 
@@ -56,10 +90,18 @@ void ACarapace::NotifyActorBeginOverlap(AActor* OtherActor)
 	//TODO if otherActor = Cast<AKartPawn> => stun => destroy
 
 	AItem* _otherItem = Cast<AItem>(OtherActor);
+	AKart* _kart = Cast<AKart>(OtherActor);
 	if (_otherItem)
 	{
 		_otherItem->Destroy();
 		Destroy();
+		return;
+	}
+	else if (_kart)
+	{
+		//TODO STUN
+		Destroy();
+		return;
 	}
 	Collision();
 

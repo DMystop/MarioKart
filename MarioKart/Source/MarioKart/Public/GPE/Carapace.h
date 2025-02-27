@@ -6,6 +6,7 @@
 #include <GameFramework/ProjectileMovementComponent.h>
 #include "Carapace.generated.h"
 
+class AKart;
 UCLASS()
 class MARIOKART_API ACarapace : public AItem
 {
@@ -14,12 +15,15 @@ protected:
 	UPROPERTY(EditAnywhere)int maxBounces = 3;
 	UPROPERTY(EditAnywhere)float rotationSpeed = 500.0f;
 	UPROPERTY(EditAnywhere)float moveSpeed = 500.0f;
+	UPROPERTY(EditAnywhere) int dir = 1;
 	int currentBounces = 0;
+	bool canMove = false;
 	
 public:	
 	ACarapace();
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void Use(AKart* _targetKart)override;
 private:
 	void Rotate(float _delta);
 	void Move(float _delta);

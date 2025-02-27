@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include"3C/Kart.h"
 #include "Item.generated.h"
 
 UCLASS(Abstract)
@@ -14,5 +15,8 @@ protected:
 	
 public:	
 	AItem();
+
+public:
+	virtual void Use(AKart* _targetKart) PURE_VIRTUAL(AItem::Use, );
 
 };

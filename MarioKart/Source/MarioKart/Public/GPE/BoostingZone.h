@@ -9,6 +9,8 @@ class MARIOKART_API ABoostingZone : public AActor
 {
 	GENERATED_BODY()
 	UPROPERTY(EditAnywhere) TObjectPtr<UStaticMeshComponent> mesh = nullptr;
+	UPROPERTY(EditAnywhere) float boostValue = 200.0f;
+	UPROPERTY(EditAnywhere) float boostTime = 3.0f;
 	
 public:	
 	ABoostingZone();
