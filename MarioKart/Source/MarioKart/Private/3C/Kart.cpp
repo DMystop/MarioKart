@@ -56,6 +56,7 @@ void AKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	_input->BindAction(input.brakeAction, ETriggerEvent::Completed, movement.Get(), &UKartMovementComponent::SetAddVelocity);
 	_input->BindAction(input.turnAction, ETriggerEvent::Triggered, movement.Get(), &UKartMovementComponent::Rotate);
 	_input->BindAction(input.turnAction, ETriggerEvent::Completed, movement.Get(), &UKartMovementComponent::Rotate);
+	_input->BindAction(input.boostAction, ETriggerEvent::Started, movement.Get(), &UKartMovementComponent::Boost);
 
 }
 

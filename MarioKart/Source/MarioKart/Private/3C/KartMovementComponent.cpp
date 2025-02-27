@@ -36,11 +36,12 @@ void UKartMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void UKartMovementComponent::Accelerate(const FInputActionValue& _value)
 {
+	if (boostIsActivate)return;
 	currentSpeed += acceleration;
 
-	currentSpeed = currentSpeed > maxSpeed ? maxSpeed : currentSpeed;
+		currentSpeed = currentSpeed > maxSpeed ? maxSpeed : currentSpeed;
 
-	UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(acceleration)+"km/h");
+	//UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(acceleration)+"km/h");
 	addVelocity = true;
 
 }
@@ -50,7 +51,7 @@ void UKartMovementComponent::Rotate(const FInputActionValue& _value)
 	float _inputRotation = _value.Get<float>();
 	if (_inputRotation == 0 || currentSpeed == 0)return;
 	float _rotationValue = _inputRotation*rotationSpeed * (1 - (currentSpeed / maxSpeed) + minRotation)*GetWorld()->DeltaTimeSeconds;
-
+	UKismetSystemLibrary::PrintString(this,FString::SanitizeFloat(_rotationValue));
 	APawn* _owner = Cast<APawn>(GetOwner());
 	_owner->AddControllerYawInput(_rotationValue);
 
@@ -65,10 +66,10 @@ void UKartMovementComponent::Move(float DeltaTime)
 	FVector _newPos =UKismetMathLibrary::VInterpTo_Constant(_owner->GetActorLocation(), _forward, DeltaTime,abs(currentSpeed));
 	
 	_owner->SetActorLocation(_newPos);
-	UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(currentSpeed) +"km/h");
+	//UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(currentSpeed) +"km/h");
 
 
-	if (!addVelocity)
+	if (!addVelocity&&!boostIsActivate)
 		GoBackToNeutral();
 
 
@@ -76,6 +77,7 @@ void UKartMovementComponent::Move(float DeltaTime)
 
 void UKartMovementComponent::GoBackToNeutral()
 {
+
 	if (currentSpeed > 0)
 	{
 	currentSpeed -= deceleration;
@@ -93,13 +95,46 @@ void UKartMovementComponent::GoBackToNeutral()
 
 void UKartMovementComponent::Brake(const FInputActionValue& _value)
 {
+	if (boostIsActivate)
+		return;
+
 	currentSpeed -= acceleration;
 
 	currentSpeed = currentSpeed < -maxSpeed ? -maxSpeed : currentSpeed;
 
-	UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(currentSpeed) + "km/h");
 
 	addVelocity = true;
+}
+
+void UKartMovementComponent::Boost(const FInputActionValue& _value)
+{
+	UKismetSystemLibrary::PrintString(this, "Boost");
+	currentSpeed = maxSpeed + 50;
+	FTimerManager& _timerManager = GetWorld()->GetTimerManager();
+
+	if (_timerManager.IsTimerActive(boostTimer))
+	{
+		_timerManager.ClearTimer(boostTimer);
+	}
+
+	_timerManager.SetTimer(boostTimer, this, &UKartMovementComponent::ResetBoost,5.0f,false);
+
+	boostIsActivate = true;
+}
+
+void UKartMovementComponent::Boost(float _boost, float _time)
+{
+	currentSpeed = maxSpeed + _boost;
+	FTimerManager& _timerManager = GetWorld()->GetTimerManager();
+
+	if (_timerManager.IsTimerActive(boostTimer))
+	{
+		_timerManager.ClearTimer(boostTimer);
+	}
+
+	_timerManager.SetTimer(boostTimer, this, &UKartMovementComponent::ResetBoost, _time, false);
+
+	boostIsActivate = true;
 }
 
 
