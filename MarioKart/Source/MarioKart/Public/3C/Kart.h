@@ -18,6 +18,7 @@ struct FInput
 	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>accelerateAction;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>turnAction;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>brakeAction;
+	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>boostAction;
 
 };
 

@@ -12,6 +12,7 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MARIOKART_API UKartMovementComponent : public UActorComponent
 {
 	GENERATED_BODY()
+	// movement
 	UPROPERTY(EditAnywhere)float acceleration=10;
 	UPROPERTY(EditAnywhere)float currentSpeed=0;
 	UPROPERTY(EditAnywhere)float maxSpeed=200;
@@ -20,13 +21,19 @@ class MARIOKART_API UKartMovementComponent : public UActorComponent
 	UPROPERTY(EditAnywhere)float  rotationSpeed=50;
 	UPROPERTY(EditAnywhere)bool addVelocity = false;
 
-
-
+	//Boost
+	UPROPERTY()FTimerHandle boostTimer;
+	bool boostIsActivate = false;
 
 public :
 	FORCEINLINE void SetAddVelocity(const FInputActionValue& _value)
 	{
 		addVelocity = false;
+	}
+	
+	FORCEINLINE void ResetBoost()
+	{
+		boostIsActivate = false;
 	}
 public:	
 	// Sets default values for this component's properties
@@ -45,5 +52,7 @@ public:
 	void Move(float DeltaTime);
 	void GoBackToNeutral();
 	void Brake(const FInputActionValue& _value);
+	void Boost(const FInputActionValue& _value);
+	void Boost(float _boost ,float _time);
 		
 };
