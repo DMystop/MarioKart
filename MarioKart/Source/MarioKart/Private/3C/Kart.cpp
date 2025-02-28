@@ -72,6 +72,8 @@ void AKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	_input->BindAction(input.turnAction, ETriggerEvent::Completed, movement.Get(), &UKartMovementComponent::Rotate);
 	_input->BindAction(input.boostAction, ETriggerEvent::Started, movement.Get(), &UKartMovementComponent::Boost);
 	_input->BindAction(input.useAction, ETriggerEvent::Started, inventory.Get(), &UInventoryComponent::UseItem);
+	_input->BindAction(input.shootBehindAction, ETriggerEvent::Started, this, &AKart::ToggleShootDirection);
+	_input->BindAction(input.shootBehindAction, ETriggerEvent::Completed, this, &AKart::ToggleShootDirection);
 
 }
 
@@ -82,5 +84,12 @@ void AKart::InitInput()
 	UEnhancedInputLocalPlayerSubsystem* _inputSystem = _local->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
 
 	_inputSystem->AddMappingContext(input.mappingContext, 0);
+}
+
+void AKart::ToggleShootDirection(const FInputActionValue& _value)
+{
+	bool _shootBehind = _value.Get<bool>();
+	UKismetSystemLibrary::PrintString(this, _shootBehind ? "True" : "False");
+	shootBehind = _shootBehind;
 }
 

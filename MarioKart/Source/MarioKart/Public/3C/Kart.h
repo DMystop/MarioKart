@@ -21,6 +21,7 @@ struct FInput
 	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>brakeAction;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>boostAction;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>useAction;
+	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>shootBehindAction;
 
 };
 
@@ -36,10 +37,13 @@ class MARIOKART_API AKart : public APawn
 	UPROPERTY(EditAnywhere)FInput input;
 	UPROPERTY(EditAnywhere)TObjectPtr<UKartMovementComponent>movement;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInventoryComponent>inventory;
+	UPROPERTY(EditAnywhere)bool shootBehind = false;
 	
 public:
 	FORCEINLINE TObjectPtr<UKartMovementComponent> GetMovement() { return movement; }
 	FORCEINLINE TObjectPtr<UInventoryComponent> GetInventory() { return inventory; }
+	FORCEINLINE bool GetShootDirection() const { return shootBehind; }
+
 public:
 	// Sets default values for this pawn's properties
 	AKart();
@@ -58,5 +62,7 @@ protected:
 
 	void InitInput();
 public:
+	void ToggleShootDirection(const FInputActionValue& _value);
+	
 
 };

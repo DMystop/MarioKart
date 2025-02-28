@@ -19,7 +19,7 @@ void ACarapace::BeginPlay()
 void ACarapace::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (!canMove)return;
+	//if (!canMove)return;
 	Move(DeltaTime);
 	Rotate(DeltaTime);
 
@@ -27,34 +27,27 @@ void ACarapace::Tick(float DeltaTime)
 
 void ACarapace::Use(AKart* _targetKart)
 {
-	//if (!_targetKart) return;
+	if (!_targetKart) return;
 
-	////get the shoot dir
-	//int _shootDirection = _targetKart->GetShootDirection();
-	//// Place carapace in front or behind
-	//FVector _spawnLocation = _targetKart->GetActorLocation() + _targetKart->GetActorForwardVector() * 100.0f * _shootDirection;
-	//SetActorLocation(_spawnLocation);
-	//// orientation
-	//SetActorRotation(_targetKart->GetActorRotation());
-	//if (_shootDirection == -1)
-	//{
-	//	// if shoot behind, inverse move dir
-	//	SetActorRotation(GetActorRotation() + FRotator(0, 180, 0));
-	//}
+	//get the shoot dir
+	int _shootDirection = _targetKart->GetShootDirection();
+	// Place carapace in front or behind
+	FVector _spawnLocation = _targetKart->GetActorLocation() + _targetKart->GetActorForwardVector() * 100.0f * _shootDirection;
+	SetActorLocation(_spawnLocation);
+	// orientation
+	SetActorRotation(_targetKart->GetActorRotation());
+	if (_shootDirection)
+	{
+		// if shoot behind, inverse move dir
+		SetActorRotation(GetActorRotation() + FRotator(0, 180, 0));
+	}
 
-	//mesh->IgnoreActorWhenMoving(_targetKart, true);
-	//dir = _shootDirection;
+	mesh->IgnoreActorWhenMoving(_targetKart, true);
+	dir = _shootDirection;
 	//canMove = true;
 
 
-	//TODO IN THE KART
-	/*UPROPERTY(EditAnywhere)int shootDirection = 1;
-	FORCEINLINE int GetShootDirection() const { return shootDirection; }
-
-	void ToggleShootDirection(const FInputActionValue& _value)
-	{
-		shootDirection *= -1
-	}*/
+	
 }
 
 void ACarapace::Rotate(float _delta)
