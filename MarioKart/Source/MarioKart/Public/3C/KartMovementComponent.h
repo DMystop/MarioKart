@@ -8,41 +8,42 @@
 #include "KartMovementComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class MARIOKART_API UKartMovementComponent : public UActorComponent
 {
 	GENERATED_BODY()
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMove,AActor*,_actor ,FTransform, _currentTransform);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMove, AActor*, _actor, FTransform, _currentTransform);
 	UPROPERTY() FOnMove onMove;
 	// movement
-	UPROPERTY(EditAnywhere)float acceleration=10;
-	UPROPERTY(EditAnywhere)float currentSpeed=0;
-	UPROPERTY(EditAnywhere)float maxSpeed=200;
-	UPROPERTY(EditAnywhere)float deceleration=2;
-	UPROPERTY(EditAnywhere)float  minRotation=0.4;
-	UPROPERTY(EditAnywhere)float  rotationSpeed=50;
+	UPROPERTY(EditAnywhere)float acceleration = 10;
+	UPROPERTY(EditAnywhere)float currentSpeed = 0;
+	UPROPERTY(EditAnywhere)float maxSpeed = 200;
+	UPROPERTY(EditAnywhere)float deceleration = 2;
+	UPROPERTY(EditAnywhere)float  minRotation = 0.4;
+	UPROPERTY(EditAnywhere)float  rotationSpeed = 50;
 	UPROPERTY(EditAnywhere)bool addVelocity = false;
+	UPROPERTY(EditAnywhere)bool canMove = true;
 
 	//Boost
 	UPROPERTY()FTimerHandle boostTimer;
 	bool boostIsActivate = false;
 
-public :
+public:
 	FORCEINLINE void SetAddVelocity(const FInputActionValue& _value)
 	{
 		addVelocity = false;
 	}
-	
+
 	FORCEINLINE void ResetBoost()
 	{
 		boostIsActivate = false;
 	}
-	
+
 	FORCEINLINE FOnMove& OnMove()
 	{
 		return onMove;
 	}
-public:	
+public:
 	// Sets default values for this component's properties
 	UKartMovementComponent();
 
@@ -52,7 +53,7 @@ protected:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-public:	
+public:
 
 	void Accelerate(const FInputActionValue& _value);
 	void Rotate(const FInputActionValue& _value);
@@ -60,6 +61,6 @@ public:
 	void GoBackToNeutral();
 	void Brake(const FInputActionValue& _value);
 	void Boost(const FInputActionValue& _value);
-	void Boost(float _boost ,float _time);
-		
+	void Boost(float _boost, float _time);
+	UFUNCTION()void SetMoveStun(bool _isStun);
 };

@@ -8,7 +8,7 @@
 #include "InventoryComponent.generated.h"
 
 class AItem;
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class MARIOKART_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -16,13 +16,14 @@ class MARIOKART_API UInventoryComponent : public UActorComponent
 	UPROPERTY() FOnUse onUse;
 	UPROPERTY(EditAnywhere)TArray<TSubclassOf<AItem>> items;
 	UPROPERTY(EditAnywhere)int maxCount = 2;
-	
+	UPROPERTY(EditAnywhere) bool canUse = true;
+
 public:
 	FORCEINLINE FOnUse& OnUse()
 	{
 		return onUse;
 	}
-public:	
+public:
 	// Sets default values for this component's properties
 	UInventoryComponent();
 
@@ -31,10 +32,11 @@ protected:
 	virtual void BeginPlay() override;
 
 
-public:	
+public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void AddItem(TSubclassOf<AItem> _item);
 	void UseItem(const FInputActionValue& _value);
-		
+	UFUNCTION() void SetCanUseOnStun(bool _isStun);
+
 };
