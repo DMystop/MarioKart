@@ -14,7 +14,6 @@ ACarapace::ACarapace()
 void ACarapace::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void ACarapace::Tick(float DeltaTime)

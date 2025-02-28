@@ -59,6 +59,8 @@ void UKartMovementComponent::Rotate(const FInputActionValue& _value)
 
 void UKartMovementComponent::Move(float DeltaTime)
 {
+	if (currentSpeed == 0)return;
+
 	AActor* _owner = GetOwner();
 	
 	FVector _forward = _owner->GetActorLocation() + _owner->GetActorForwardVector() * currentSpeed;
@@ -71,7 +73,8 @@ void UKartMovementComponent::Move(float DeltaTime)
 
 	if (!addVelocity&&!boostIsActivate)
 		GoBackToNeutral();
-
+	if(!_owner->HasAuthority())
+		onMove.Broadcast(_owner, _owner->GetTransform());
 
 }
 

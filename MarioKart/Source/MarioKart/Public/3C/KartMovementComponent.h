@@ -12,6 +12,8 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MARIOKART_API UKartMovementComponent : public UActorComponent
 {
 	GENERATED_BODY()
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMove,AActor*,_actor ,FTransform, _currentTransform);
+	UPROPERTY() FOnMove onMove;
 	// movement
 	UPROPERTY(EditAnywhere)float acceleration=10;
 	UPROPERTY(EditAnywhere)float currentSpeed=0;
@@ -34,6 +36,11 @@ public :
 	FORCEINLINE void ResetBoost()
 	{
 		boostIsActivate = false;
+	}
+	
+	FORCEINLINE FOnMove& OnMove()
+	{
+		return onMove;
 	}
 public:	
 	// Sets default values for this component's properties

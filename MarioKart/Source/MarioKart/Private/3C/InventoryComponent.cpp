@@ -27,6 +27,7 @@ void UInventoryComponent::BeginPlay()
 }
 
 
+
 // Called every frame
 void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -46,8 +47,18 @@ void UInventoryComponent::UseItem(const FInputActionValue& _value)
 {
 	UKismetSystemLibrary::PrintString(this, "Use");
 	if (items.IsEmpty())return;
-	AItem * _item = GetWorld()->SpawnActor<AItem>(items[0], GetOwner()->GetTransform());
-	//TODO use Competence
+	AKart* _owner = Cast<AKart>(GetOwner());
+	if (GetOwner()->HasAuthority())
+	{
+		AItem * _item = GetWorld()->SpawnActor<AItem>(items[0], GetOwner()->GetTransform());
+		if(_item)
+			_item->Use(_owner);
+
+	}
+	else
+	{
+		onUse.Broadcast(items[0],_owner);
+	}
 	items.RemoveAt(0);
 
 }
