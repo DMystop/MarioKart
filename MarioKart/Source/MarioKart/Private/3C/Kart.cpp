@@ -6,6 +6,7 @@
 #include <EnhancedInputComponent.h>
 #include"3C/KartMovementComponent.h"
 #include "3C/InventoryComponent.h"
+#include <Kismet/KismetSystemLibrary.h>
 
 
 // Sets default values
@@ -29,7 +30,8 @@ AKart::AKart()
 	AddOwnedComponent(movement);
 	AddOwnedComponent(inventory);
 
-
+	bReplicates = true;
+	bAlwaysRelevant = true;
 }
 
 // Called when the game starts or when spawned
@@ -37,7 +39,10 @@ void AKart::BeginPlay()
 {
 	Super::BeginPlay();
 	InitInput();
-	
+	ENetRole _role = GetLocalRole();
+	const UEnum* EnumPtr = StaticEnum<ENetRole>();
+	FString _msg = "Local Role =>" + EnumPtr->GetDisplayNameTextByValue(_role).ToString();
+	UKismetSystemLibrary::PrintString(this, _msg);
 }
 
 // Called every frame
@@ -45,6 +50,11 @@ void AKart::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AKart::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 }
 
 // Called to bind functionality to input

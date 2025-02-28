@@ -12,10 +12,16 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MARIOKART_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
-	UPROPERTY(VisibleAnywhere)TArray<TSubclassOf<AItem>> items;
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUse, TSubclassOf<AItem>, _item, AKart*, _kart);
+	UPROPERTY() FOnUse onUse;
+	UPROPERTY(EditAnywhere)TArray<TSubclassOf<AItem>> items;
 	UPROPERTY(EditAnywhere)int maxCount = 2;
 	
-
+public:
+	FORCEINLINE FOnUse& OnUse()
+	{
+		return onUse;
+	}
 public:	
 	// Sets default values for this component's properties
 	UInventoryComponent();
@@ -23,6 +29,7 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
 
 public:	
 	// Called every frame

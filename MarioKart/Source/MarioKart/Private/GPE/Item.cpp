@@ -7,6 +7,7 @@ AItem::AItem()
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 
 	mesh->SetupAttachment(RootComponent);*/
+	bReplicates = true;
 
 }
 

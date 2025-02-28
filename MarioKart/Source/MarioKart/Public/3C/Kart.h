@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "InputMappingContext.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -26,6 +26,7 @@ struct FInput
 
 UCLASS()
 class MARIOKART_API AKart : public APawn
+
 {
 	GENERATED_BODY()
 	UPROPERTY(EditAnywhere)TObjectPtr<USpringArmComponent>arm;
@@ -36,7 +37,9 @@ class MARIOKART_API AKart : public APawn
 	UPROPERTY(EditAnywhere)TObjectPtr<UKartMovementComponent>movement;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInventoryComponent>inventory;
 	
-
+public:
+	FORCEINLINE TObjectPtr<UKartMovementComponent> GetMovement() { return movement; }
+	FORCEINLINE TObjectPtr<UInventoryComponent> GetInventory() { return inventory; }
 public:
 	// Sets default values for this pawn's properties
 	AKart();
@@ -47,6 +50,8 @@ protected:
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps)const override;
+
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
