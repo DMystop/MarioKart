@@ -5,9 +5,27 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Levels/LVL_01.umap",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Levels/LVL_MainMenu.umap",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Widgets/Menu/UI_MenuWidget.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Blueprints/BP_MenuHUD.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Blueprints/GM_MainMenu.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Blueprints/BP_MenuPlayerController.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Widgets/Menu/MarioKartMainMenuImage.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Widgets/Dashboard/BP_DashboardWidget.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Widgets/Dashboard/CoinItemIcon.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Widgets/Dashboard/ItemSlotUI.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Widgets/SessionSlotWidget.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Widgets/Server/SessionSlotWidget.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Levels/LVL_Lobby.umap",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Blueprints/GM_Lobby.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Widgets/Server/ServerListMenuWidget.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Blueprints/BP_PC_Lobby.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Blueprints/HUD_Lobby.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Widgets/Server/BP_ServerListMenuWidget.uasset",
+				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Widgets/Server/BP_SessionSlotWidget.uasset",
 				"E:/P2 Medy/Unity/MarioKart/MarioKart/Content/Level_Medy.umap",
-				"E:/P2 Medy/Unity/MarioKart/MarioKart/Content/Levels/Level_Medy.umap",
-				"D:/Julio/Github/Unreal/MarioKart/MarioKart/MarioKart/Content/Levels/LVL_01.umap"
+				"E:/P2 Medy/Unity/MarioKart/MarioKart/Content/Levels/Level_Medy.umap"
 			]
 		}
 	]
