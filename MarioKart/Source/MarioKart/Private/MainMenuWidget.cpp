@@ -26,7 +26,7 @@ void UMainMenuWidget::OnPlayButton()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Play"));
 	GetWorld()->ServerTravel("/Game/Levels/LVL_Lobby?listen");
-	//LoadLevel();
+	
 }
 
 void UMainMenuWidget::OnQuitButton()
@@ -43,7 +43,3 @@ void UMainMenuWidget::OnSearchButton()
 	RemoveFromParent();
 }
 
-void UMainMenuWidget::LoadLevel()
-{
-	UGameplayStatics::OpenLevel(this, "/Game/Maps/LVL_01", false);
-}

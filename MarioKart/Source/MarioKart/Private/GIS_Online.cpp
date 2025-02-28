@@ -8,7 +8,7 @@ UGIS_Online::UGIS_Online()
 	maxPlayersCount = 4;
 	serverName = "Groupe Universal Studio";
 	sessionName = "Unknown";
-	levelPath = "Unknown";
+	levelPath = "LVL_Final"; // LVL_Final
 	mainMenuLevelPath = "LVL_MainMenu";
 	lobbyLevelPath = "LVL_Lobby";
 	ipAddress = "Unknown";
@@ -136,6 +136,7 @@ void UGIS_Online::OnJoinSessionCompleted(FName _sessionName, const EOnJoinSessio
 	if (APlayerController* _playerController = GetGameInstance()->GetFirstLocalPlayerController())
 	{
 		LOG("The client travels on the server: " + levelPath + "!", Green);
+		LOG("Coucou " + ipAddress + "!", Red); // TODO
 		_playerController->ClientTravel(ipAddress, ETravelType::TRAVEL_Absolute, false);
 	}
 }
@@ -274,6 +275,8 @@ void UGIS_Online::JoinSession(const FName& _sessionName, const FString& _levelPa
 	LOG("UGIS_Online => JoinSession", Magenta);
 	sessionName = _sessionName;
 	levelPath = _levelPath;
+	LOG("CHEMIN DU LEVEL :" + levelPath, Yellow);
+
 
 	const TArray<FOnlineSessionSearchResult>& _result = sessionSearch->SearchResults;
 	if (_sessionIndex < 0 || _sessionIndex >= _result.Num())

@@ -34,7 +34,5 @@ class MARIOKART_API UMainMenuWidget : public UUserWidget
 	UFUNCTION() void OnPlayButton();
 	UFUNCTION() void OnQuitButton();
 	UFUNCTION() void OnSearchButton();
-
-	void LoadLevel();
 	
 };

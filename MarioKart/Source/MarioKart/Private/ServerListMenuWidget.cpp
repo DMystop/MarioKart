@@ -43,6 +43,7 @@ TObjectPtr<USessionSlotWidget> UServerListMenuWidget::CreateSessionSlot(const FS
 {
 	TObjectPtr<USessionSlotWidget> _sessionSlot = CreateWidget<USessionSlotWidget>(GetWorld(), slotMenuRef);
 	_sessionSlot->InitData(_data, _index);
+	LOG(_data.serverName + " " + _data.levelName, Red);
 	allSessions.Add(_sessionSlot);
 	return _sessionSlot;
 }

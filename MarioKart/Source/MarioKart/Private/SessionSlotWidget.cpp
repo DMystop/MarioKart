@@ -21,7 +21,9 @@ void USessionSlotWidget::Bind()
 
 void USessionSlotWidget::OnJoin()
 {
-	onSelected.Broadcast(FName(serverName->Text.ToString()), levelName.GetName(), index);
+	//onSelected.Broadcast(FName(serverName->Text.ToString()), levelName.GetName(), index);
+	onSelected.Broadcast(FName(serverName->Text.ToString()), levelName->Text.ToString(), index);
+	LOG("ON Join" + levelName->Text.ToString(), Yellow);
 
 }
 
