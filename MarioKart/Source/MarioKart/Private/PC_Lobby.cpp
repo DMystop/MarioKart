@@ -7,10 +7,10 @@
 void APC_Lobby::BeginPlay()
 {
 	Super::BeginPlay();
-	LOG("APCLOBBY 1", Magenta);
+	// LOG("APCLOBBY 1", Magenta);
 	if (this != GetWorld()->GetFirstPlayerController())
 		return;
-	LOG("APCLOBBY 2", Magenta);
+	// LOG("APCLOBBY 2", Magenta);
 	FTimerHandle _timer;
 	FTimerDelegate _delegate = FTimerDelegate();
 	_delegate.BindLambda([&]()
@@ -21,6 +21,7 @@ void APC_Lobby::BeginPlay()
 				{
 					LOG("APC_Lobby => Create session with authority!", Magenta);
 					_online->CreateSession();
+					_online->StartSession();
 				}
 			}
 		});
