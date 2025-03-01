@@ -24,11 +24,13 @@ void ABanana::Tick(float DeltaTime)
 
 void ABanana::Use(AKart* _targetKart)
 {
-	//if (!_targetKart) return;
+	if (!_targetKart) return;
 
-	//int _shootDirection = _targetKart->GetShootDirection();
-	//FVector _spawnLocation = _targetKart->GetActorLocation() + _targetKart->GetActorForwardVector() * 100.0f * _shootDirection;
-	//SetActorLocation(_spawnLocation);
+	bool _shootDirection = _targetKart->GetShootDirection();
+	FVector _dir = _targetKart->GetActorForwardVector() * 100.0f;
+	_dir = _shootDirection ? -_dir : _dir;
+	FVector _spawnLocation = _targetKart->GetActorLocation() +_dir ;
+	SetActorLocation(_spawnLocation);
 }
 
 void ABanana::NotifyActorBeginOverlap(AActor* OtherActor)

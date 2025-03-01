@@ -5,6 +5,7 @@
 #include <EnhancedInputSubsystems.h>
 #include <EnhancedInputComponent.h>
 #include"3C/KartMovementComponent.h"
+#include"3C/StunComponentComponent.h"
 #include "3C/InventoryComponent.h"
 #include <Kismet/KismetSystemLibrary.h>
 
@@ -12,7 +13,7 @@
 // Sets default values
 AKart::AKart()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	RootComponent = CreateDefaultSubobject<USceneComponent>("Root");
 	arm = CreateDefaultSubobject<USpringArmComponent>("Spring");
@@ -22,6 +23,7 @@ AKart::AKart()
 
 	movement = CreateDefaultSubobject<UKartMovementComponent>("Movemnt");
 	inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
+	stunComponent = CreateDefaultSubobject<UStunComponent>("Stun");
 
 	arm->SetupAttachment(RootComponent);
 	camera->SetupAttachment(arm);
@@ -29,6 +31,7 @@ AKart::AKart()
 
 	AddOwnedComponent(movement);
 	AddOwnedComponent(inventory);
+	AddOwnedComponent(stunComponent);
 
 	bReplicates = true;
 	bAlwaysRelevant = true;
@@ -38,11 +41,19 @@ AKart::AKart()
 void AKart::BeginPlay()
 {
 	Super::BeginPlay();
+
 	InitInput();
 	ENetRole _role = GetLocalRole();
 	const UEnum* EnumPtr = StaticEnum<ENetRole>();
 	FString _msg = "Local Role =>" + EnumPtr->GetDisplayNameTextByValue(_role).ToString();
 	UKismetSystemLibrary::PrintString(this, _msg);
+	Bind();
+}
+
+void AKart::Bind()
+{
+	stunComponent->OnStun().AddDynamic(movement.Get(), &UKartMovementComponent::SetMoveStun);
+	stunComponent->OnStun().AddDynamic(inventory.Get(), &UInventoryComponent::SetCanUseOnStun);
 }
 
 // Called every frame
@@ -72,6 +83,9 @@ void AKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	_input->BindAction(input.turnAction, ETriggerEvent::Completed, movement.Get(), &UKartMovementComponent::Rotate);
 	_input->BindAction(input.boostAction, ETriggerEvent::Started, movement.Get(), &UKartMovementComponent::Boost);
 	_input->BindAction(input.useAction, ETriggerEvent::Started, inventory.Get(), &UInventoryComponent::UseItem);
+	_input->BindAction(input.shootBehindAction, ETriggerEvent::Started, this, &AKart::ToggleShootDirection);
+	_input->BindAction(input.shootBehindAction, ETriggerEvent::Completed, this, &AKart::ToggleShootDirection);
+	_input->BindAction(input.stunAction, ETriggerEvent::Started, stunComponent.Get(), &UStunComponent::StunAction);
 
 }
 
@@ -82,5 +96,12 @@ void AKart::InitInput()
 	UEnhancedInputLocalPlayerSubsystem* _inputSystem = _local->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
 
 	_inputSystem->AddMappingContext(input.mappingContext, 0);
+}
+
+void AKart::ToggleShootDirection(const FInputActionValue& _value)
+{
+	bool _shootBehind = _value.Get<bool>();
+	UKismetSystemLibrary::PrintString(this, _shootBehind ? "True" : "False");
+	shootBehind = _shootBehind;
 }
 

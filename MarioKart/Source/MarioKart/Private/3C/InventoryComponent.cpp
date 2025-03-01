@@ -23,7 +23,7 @@ void UInventoryComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
+
 }
 
 
@@ -46,20 +46,25 @@ void UInventoryComponent::AddItem(TSubclassOf<AItem> _item)
 void UInventoryComponent::UseItem(const FInputActionValue& _value)
 {
 	UKismetSystemLibrary::PrintString(this, "Use");
-	if (items.IsEmpty())return;
+	if (items.IsEmpty() || !canUse)return;
 	AKart* _owner = Cast<AKart>(GetOwner());
 	if (GetOwner()->HasAuthority())
 	{
-		AItem * _item = GetWorld()->SpawnActor<AItem>(items[0], GetOwner()->GetTransform());
-		if(_item)
+		AItem* _item = GetWorld()->SpawnActor<AItem>(items[0], GetOwner()->GetTransform());
+		if (_item)
 			_item->Use(_owner);
 
 	}
 	else
 	{
-		onUse.Broadcast(items[0],_owner);
+		onUse.Broadcast(items[0], _owner);
 	}
 	items.RemoveAt(0);
 
+}
+
+void UInventoryComponent::SetCanUseOnStun(bool _isStun)
+{
+	canUse = !_isStun;
 }
 

@@ -17,7 +17,7 @@ protected:
 	UPROPERTY(EditAnywhere)float moveSpeed = 500.0f;
 	UPROPERTY(EditAnywhere) int dir = 1;
 	int currentBounces = 0;
-	bool canMove = false;
+	//bool canMove = false;
 	
 public:	
 	ACarapace();
