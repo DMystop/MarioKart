@@ -8,6 +8,8 @@
 #include"3C/StunComponentComponent.h"
 #include "3C/InventoryComponent.h"
 #include <Kismet/KismetSystemLibrary.h>
+#include "GPE/CheckPoint.h"
+
 
 
 // Sets default values
@@ -43,6 +45,7 @@ void AKart::BeginPlay()
 	Super::BeginPlay();
 
 	InitInput();
+	Init();
 	ENetRole _role = GetLocalRole();
 	const UEnum* EnumPtr = StaticEnum<ENetRole>();
 	FString _msg = "Local Role =>" + EnumPtr->GetDisplayNameTextByValue(_role).ToString();
@@ -98,10 +101,37 @@ void AKart::InitInput()
 	_inputSystem->AddMappingContext(input.mappingContext, 0);
 }
 
+void AKart::Init()
+{
+	raceSubSystem = GetWorld()->GetGameInstance()->GetSubsystem<URaceSubSystem>();
+	if (raceSubSystem)
+	{
+		raceSubSystem->RegisterKart(this);
+		UKismetSystemLibrary::PrintString(this, "Register Kart");
+	}
+}
+
 void AKart::ToggleShootDirection(const FInputActionValue& _value)
 {
 	bool _shootBehind = _value.Get<bool>();
 	UKismetSystemLibrary::PrintString(this, _shootBehind ? "True" : "False");
 	shootBehind = _shootBehind;
+}
+
+void AKart::SetCurrentCheckpoint(int _checkpoint)
+{
+	if (!raceSubSystem) return;
+
+	if (_checkpoint == 0 && currentCheckPointIndex == raceSubSystem->GetTotalCheckpoints() - 1)
+	{
+		lapsCompleted++;
+		if (lapsCompleted >= 3) // 3 laps
+		{
+			UKismetSystemLibrary::PrintString(this, "Finish");
+			return;
+		}
+	}
+
+	currentCheckPointIndex = _checkpoint;
 }
 

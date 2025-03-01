@@ -7,11 +7,14 @@
 #include "InputMappingContext.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GPE/RaceSubSystem.h"
 #include "Kart.generated.h"
 
 class UKartMovementComponent;
 class UInventoryComponent;
 class UStunComponent;
+class ACheckPoint;
+class URaceSubSystem;
 USTRUCT()
 struct FInput
 {
@@ -40,6 +43,9 @@ class MARIOKART_API AKart : public APawn
 	UPROPERTY(EditAnywhere)TObjectPtr<UKartMovementComponent>movement;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInventoryComponent>inventory;
 	UPROPERTY(EditAnywhere)bool shootBehind = false;
+	UPROPERTY() int currentCheckPointIndex = 0;
+	UPROPERTY() int lapsCompleted = 0;
+	UPROPERTY() URaceSubSystem* raceSubSystem;
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)TObjectPtr<UStunComponent>stunComponent;
 public:
@@ -65,8 +71,10 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void InitInput();
+	void Init();
 public:
 	void ToggleShootDirection(const FInputActionValue& _value);
+	void SetCurrentCheckpoint(int _checkpoint);
 
 
 };

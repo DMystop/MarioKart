@@ -7,6 +7,7 @@ void URaceSubSystem::RegisterCheckpoint(ACheckPoint* _newCheckpoint)
 {
 	if (_newCheckpoint)
 	{
+		UKismetSystemLibrary::PrintString(this, "Register CheckPoint");
 		checkpoints.Add(_newCheckpoint);
 	}
 }
@@ -55,6 +56,8 @@ void URaceSubSystem::UpdateRaceProgress()
 {
 	for (FKartRaceInfo& _kartInfo : kartRaceInfos)
 	{
+		UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(2.0f));
+
 		if (!_kartInfo.kart) continue;
 
 		// check if he is at the next checkpoint
@@ -63,6 +66,7 @@ void URaceSubSystem::UpdateRaceProgress()
 
 		float _distance = FVector::Dist(_kartInfo.kart->GetActorLocation(), _nextCheckpoint->GetActorLocation());
 		_kartInfo.distanceToNextCheckpoint = _distance;
+		UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(_distance));
 
 		if (_distance < 200.0f) // if near of checkpoint
 		{
@@ -73,6 +77,7 @@ void URaceSubSystem::UpdateRaceProgress()
 			{
 				_kartInfo.currentCheckpoint = 0;
 				_kartInfo.currentLap++;
+				UKismetSystemLibrary::PrintString(this, " Next laps !");
 
 				if (_kartInfo.currentLap >= maxLaps)
 				{
@@ -100,4 +105,32 @@ AKart* URaceSubSystem::GetLeader() const
 	}
 
 	return _leader.kart;
+}
+
+TArray<AKart*> URaceSubSystem::GetRaceRanking() const
+{
+	TArray<FKartRaceInfo> _sortedKartInfos = kartRaceInfos;
+
+	_sortedKartInfos.Sort([](const FKartRaceInfo& A, const FKartRaceInfo& B)
+		{
+			if (A.currentLap != B.currentLap)
+			{
+				return A.currentLap > B.currentLap; 
+			}
+
+			if (A.currentCheckpoint != B.currentCheckpoint)
+			{
+				return A.currentCheckpoint > B.currentCheckpoint; 
+			}
+
+			return A.distanceToNextCheckpoint < B.distanceToNextCheckpoint; 
+		});
+
+	TArray<AKart*> _ranking;
+	for (const FKartRaceInfo& _kartInfo : _sortedKartInfos)
+	{
+		_ranking.Add(_kartInfo.kart);
+	}
+
+	return _ranking;
 }

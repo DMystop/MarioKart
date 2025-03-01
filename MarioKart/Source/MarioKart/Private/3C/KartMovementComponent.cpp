@@ -51,7 +51,7 @@ void UKartMovementComponent::Rotate(const FInputActionValue& _value)
 	float _inputRotation = _value.Get<float>();
 	if (_inputRotation == 0 || currentSpeed == 0)return;
 	float _rotationValue = _inputRotation * rotationSpeed * (1 - (currentSpeed / maxSpeed) + minRotation) * GetWorld()->DeltaTimeSeconds;
-	UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(_rotationValue));
+	//UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(_rotationValue));
 	APawn* _owner = Cast<APawn>(GetOwner());
 	_owner->AddControllerYawInput(_rotationValue);
 
