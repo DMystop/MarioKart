@@ -31,7 +31,7 @@ void ABanana::Use(AKart* _targetKart)
 	FVector _dir = _targetKart->GetActorForwardVector() * 400.0f;
 	_dir = _shootDirection ? -_dir : _dir;
 	FVector _spawnLocation = _targetKart->GetActorLocation() +_dir ;
-	SetActorLocation(_spawnLocation);
+	SetActorLocation(FVector(_spawnLocation.X + 150.0f, _spawnLocation.Y, _spawnLocation.Z - 60.0f));
 }
 
 void ABanana::NotifyActorBeginOverlap(AActor* OtherActor)

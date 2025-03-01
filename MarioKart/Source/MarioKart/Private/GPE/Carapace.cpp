@@ -32,7 +32,7 @@ void ACarapace::Use(AKart* _targetKart)
 
 	bool _shootDirection = _targetKart->GetShootDirection();
 	FVector _spawnLocation = _targetKart->GetActorLocation() + (_shootDirection ? -_targetKart->GetActorForwardVector() : _targetKart->GetActorForwardVector()) * 100.0f;
-	SetActorLocation(_spawnLocation);
+	SetActorLocation(FVector(_spawnLocation.X + 150.0f, _spawnLocation.Y, _spawnLocation.Z -60.0f));
 	SetActorRotation(_targetKart->GetActorRotation());
 	if (_shootDirection)
 	{
