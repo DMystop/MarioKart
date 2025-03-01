@@ -50,9 +50,16 @@ void UInventoryComponent::UseItem(const FInputActionValue& _value)
 	AKart* _owner = Cast<AKart>(GetOwner());
 	if (GetOwner()->HasAuthority())
 	{
-		AItem* _item = GetWorld()->SpawnActor<AItem>(items[0], GetOwner()->GetTransform());
+		FActorSpawnParameters _spawnParams;
+		_spawnParams.Owner = _owner;
+		_spawnParams.Instigator = Cast<APawn>(_owner);
+		_spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+		//AItem* _item = GetWorld()->SpawnActor<AItem>(items[0], GetOwner()->GetTransform() ,_spawnParams);
+		FVector _spawnLoc = FVector(_owner->GetActorLocation().X + 450.0f, _owner->GetActorLocation().Y, _owner->GetActorLocation().Z);
+		AItem* _item = GetWorld()->SpawnActor<AItem>(items[0], _spawnLoc, _owner->GetActorRotation(), _spawnParams);
 		if (_item)
 			_item->Use(_owner);
+		
 
 	}
 	else

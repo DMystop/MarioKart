@@ -4,6 +4,8 @@
 #include "GPE/Banana.h"
 #include "GPE/Carapace.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "3C/Kart.h"
+#include "3C/InventoryComponent.h"
 
 AMysteryItemBox::AMysteryItemBox()
 {
@@ -80,6 +82,14 @@ void AMysteryItemBox::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	if (!OtherActor)return;
 
-	//TODO Give the item to the inventory component
+	AKart* _kart = Cast<AKart>(OtherActor);
+	if (_kart)
+	{
+		UInventoryComponent* _inventory = _kart->GetComponentByClass<UInventoryComponent>();
+		if (!_inventory)return;
+		_inventory->AddItem(GiveRandomItem());
+		Destroy();
+	}
+	
 }
 

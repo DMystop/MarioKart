@@ -1,5 +1,6 @@
 #include "GPE/Carapace.h"
 #include "3C/Kart.h"
+#include"3C/StunComponentComponent.h"
 #include <Kismet/KismetSystemLibrary.h>
 
 ACarapace::ACarapace()
@@ -29,26 +30,18 @@ void ACarapace::Use(AKart* _targetKart)
 {
 	if (!_targetKart) return;
 
-	//get the shoot dir
-	int _shootDirection = _targetKart->GetShootDirection();
-	// Place carapace in front or behind
-	FVector _spawnLocation = _targetKart->GetActorLocation() + _targetKart->GetActorForwardVector() * 100.0f * _shootDirection;
+	bool _shootDirection = _targetKart->GetShootDirection();
+	FVector _spawnLocation = _targetKart->GetActorLocation() + (_shootDirection ? -_targetKart->GetActorForwardVector() : _targetKart->GetActorForwardVector()) * 100.0f;
 	SetActorLocation(_spawnLocation);
-	// orientation
 	SetActorRotation(_targetKart->GetActorRotation());
 	if (_shootDirection)
 	{
-		// if shoot behind, inverse move dir
 		SetActorRotation(GetActorRotation() + FRotator(0, 180, 0));
 	}
-
 	mesh->IgnoreActorWhenMoving(_targetKart, true);
-	dir = _shootDirection;
-	//canMove = true;
-
-
-	
+	dir = _shootDirection ? -1 : 1;
 }
+
 
 void ACarapace::Rotate(float _delta)
 {
@@ -78,8 +71,6 @@ void ACarapace::Collision()
 void ACarapace::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	if (!OtherActor) return;
-	
-	//TODO if otherActor = Cast<AKartPawn> => stun => destroy
 
 	AItem* _otherItem = Cast<AItem>(OtherActor);
 	AKart* _kart = Cast<AKart>(OtherActor);
@@ -91,7 +82,9 @@ void ACarapace::NotifyActorBeginOverlap(AActor* OtherActor)
 	}
 	else if (_kart)
 	{
-		//TODO STUN
+		UStunComponent* _stun = _kart->GetComponentByClass<UStunComponent>();
+		if (!_stun)return;
+		_stun->Stun();
 		Destroy();
 		return;
 	}
