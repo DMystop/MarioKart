@@ -90,6 +90,7 @@ void UGIS_Online::OnCreateSessionCompleted(FName _sessionName, bool _wasSuccessf
 	}
 	sessionName = _sessionName;
 	RegisterPlayer();
+	StartSession();
 }
 
 void UGIS_Online::OnFindSessionCompleted(bool _wasSuccessful)

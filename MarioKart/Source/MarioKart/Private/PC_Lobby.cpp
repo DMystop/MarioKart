@@ -21,7 +21,7 @@ void APC_Lobby::BeginPlay()
 				{
 					LOG("APC_Lobby => Create session with authority!", Magenta);
 					_online->CreateSession();
-					_online->StartSession();
+					//_online->StartSession();
 				}
 			}
 		});
