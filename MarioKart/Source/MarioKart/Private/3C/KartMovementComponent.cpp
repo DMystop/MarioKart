@@ -21,6 +21,8 @@ void UKartMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GetWorld()->GetTimerManager().SetTimer(detectTimer,this, &UKartMovementComponent::DetectRoad, 0.5f, true);
+	
 	// ...
 
 }
@@ -39,7 +41,16 @@ void UKartMovementComponent::Accelerate(const FInputActionValue& _value)
 	if (boostIsActivate || !canMove)return;
 	currentSpeed += acceleration;
 
-	currentSpeed = currentSpeed > maxSpeed ? maxSpeed : currentSpeed;
+	if (onRoad)
+	{
+		currentSpeed = currentSpeed > maxSpeed ? maxSpeed : currentSpeed;
+
+	}
+	else
+	{
+		currentSpeed = currentSpeed > maxSpeed/2 ? maxSpeed/2 : currentSpeed;
+		UKismetSystemLibrary::PrintString(this, "HorsPiste");
+	}
 
 	//UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(acceleration)+"km/h");
 	addVelocity = true;
@@ -160,6 +171,14 @@ void UKartMovementComponent::SetMoveStun(bool _isStun)
 	{
 		canMove = true;
 	}
+}
+
+void UKartMovementComponent::DetectRoad()
+{
+	TArray<AActor*> _toIgnore;
+	AActor* _owner = GetOwner();
+	TArray<FHitResult> _result = TArray<FHitResult>();
+	onRoad=UKismetSystemLibrary::LineTraceMultiForObjects(GetWorld(), _owner->GetActorLocation(), _owner->GetActorLocation()+FVector::DownVector * 3000, layers, false, _toIgnore, EDrawDebugTrace::ForDuration, _result,true);
 }
 
 

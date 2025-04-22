@@ -23,6 +23,11 @@ class MARIOKART_API UKartMovementComponent : public UActorComponent
 	UPROPERTY(EditAnywhere)float  rotationSpeed = 50;
 	UPROPERTY(EditAnywhere)bool addVelocity = false;
 	UPROPERTY(EditAnywhere)bool canMove = true;
+	UPROPERTY(EditAnywhere)bool onRoad = true;
+	UPROPERTY(EditAnywhere)FTimerHandle detectTimer ;
+	UPROPERTY(EditAnywhere)TArray<TEnumAsByte<EObjectTypeQuery>> layers;
+	
+
 
 	//Boost
 	UPROPERTY()FTimerHandle boostTimer;
@@ -63,4 +68,5 @@ public:
 	void Boost(const FInputActionValue& _value);
 	void Boost(float _boost, float _time);
 	UFUNCTION()void SetMoveStun(bool _isStun);
+	UFUNCTION()void DetectRoad();
 };
