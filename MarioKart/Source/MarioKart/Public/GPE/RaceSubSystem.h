@@ -67,5 +67,6 @@ public:
 	ACheckPoint* GetNextCheckpoint(int _currentCheckpointIndex) const;
 	AKart* GetLeader() const;
 	TArray<AKart*> GetRaceRanking() const;
+	int GetKartPlacement(AKart* _kart) const;
 	
 };

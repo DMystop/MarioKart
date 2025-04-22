@@ -286,3 +286,36 @@ TArray<AKart*> URaceSubSystem::GetRaceRanking() const
 
 	return _ranking;
 }
+
+int URaceSubSystem::GetKartPlacement(AKart* _kart) const
+{
+	if(!_kart)
+		return -1;
+
+	TArray<FKartRaceInfo> _sortedKartInfos = kartRaceInfos;
+
+	_sortedKartInfos.Sort([](const FKartRaceInfo& A, const FKartRaceInfo& B)
+		{
+			if (A.currentLap != B.currentLap)
+			{
+				return A.currentLap > B.currentLap; // Plus de tours
+			}
+
+			if (A.currentCheckpoint != B.currentCheckpoint)
+			{
+				return A.currentCheckpoint > B.currentCheckpoint; // Plus loin dans les checkpoints
+			}
+
+			return A.distanceToNextCheckpoint < B.distanceToNextCheckpoint; // Plus proche du prochain checkpoint
+		});
+
+	for (int i = 0; i < _sortedKartInfos.Num(); ++i)
+	{
+		if (_sortedKartInfos[i].kart == _kart)
+		{
+			return i + 1; // 1 = premier, 2 = deuxième etc
+		}
+	}
+
+	return -1; // Pas trouvé
+}
