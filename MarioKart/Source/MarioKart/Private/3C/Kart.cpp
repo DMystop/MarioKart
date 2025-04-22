@@ -69,6 +69,9 @@ void AKart::Tick(float DeltaTime)
 void AKart::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	/*DOREPLIFETIME(AKart, currentCheckPointIndex);
+	DOREPLIFETIME(AKart, currentLap);*/
 }
 
 // Called to bind functionality to input
@@ -120,18 +123,72 @@ void AKart::ToggleShootDirection(const FInputActionValue& _value)
 
 void AKart::SetCurrentCheckpoint(int _checkpoint)
 {
-	if (!raceSubSystem) return;
+	//if (!raceSubSystem) return;
 
-	if (_checkpoint == 0 && currentCheckPointIndex == raceSubSystem->GetTotalCheckpoints() - 1)
-	{
-		lapsCompleted++;
-		if (lapsCompleted >= 3) // 3 laps
-		{
-			UKismetSystemLibrary::PrintString(this, "Finish");
-			return;
-		}
-	}
+	//if (_checkpoint == 0 && currentCheckPointIndex == raceSubSystem->GetTotalCheckpoints() - 1)
+	//{
+	//	lapsCompleted++;
+	//	if (lapsCompleted >= 3) // 3 laps
+	//	{
+	//		UKismetSystemLibrary::PrintString(this, "Finish");
+	//		return;
+	//	}
+	//}
+
+	//currentCheckPointIndex = _checkpoint;
 
 	currentCheckPointIndex = _checkpoint;
 }
+
+void AKart::ValidateCheckpoint(ACheckPoint* _checkpoint)
+{
+	if (!raceSubSystem || !_checkpoint)return;
+
+	const TArray<ACheckPoint*>& _checkpoints = raceSubSystem->GetCheckpoints();
+	if (_checkpoints.Num() == 0)
+		return;
+
+	if (_checkpoints.IsValidIndex(currentCheckPointIndex))
+	{
+		ACheckPoint* _expectedCheckpoint = _checkpoints[currentCheckPointIndex];
+		if (_expectedCheckpoint == _checkpoint)
+		{
+			currentCheckPointIndex++;
+
+			if (currentCheckPointIndex >= _checkpoints.Num())
+			{
+				currentCheckPointIndex = 0;
+				currentLap++;
+
+				onLapCompleted.Broadcast(this);
+
+				if (currentLap >= maxLap)
+				{
+					onRaceFinished.Broadcast(this);
+					UKismetSystemLibrary::PrintString(this, "Race Finished !");
+				}
+				else
+				{
+					UKismetSystemLibrary::PrintString(this, "Lap Completed !");
+				}
+			}
+			else
+			{
+				UKismetSystemLibrary::PrintString(this, "Checkpoint Validated !");
+			}
+
+			_checkpoint->OnCheckpointValidated().Broadcast(this, _checkpoint);
+		}
+	}
+}
+
+void AKart::Server_ValidateCheckpoint_Implementation(ACheckPoint* _checkpoint)
+{
+	if (!_checkpoint)return;
+
+	ValidateCheckpoint(_checkpoint);
+}
+
+
+
 

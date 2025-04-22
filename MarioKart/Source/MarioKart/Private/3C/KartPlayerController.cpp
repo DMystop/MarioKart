@@ -34,7 +34,7 @@ void AKartPlayerController::ServerRPC_Spawnactor_Implementation(TSubclassOf<AIte
 
 void AKartPlayerController::ServerRPC_ChangePosition_Implementation(AActor* _actor,FTransform _newTransform)
 {
-	UKismetSystemLibrary::PrintString(this, "coucou");
+	//UKismetSystemLibrary::PrintString(this, "coucou");
 
 	
 	_actor->SetActorTransform(_newTransform);

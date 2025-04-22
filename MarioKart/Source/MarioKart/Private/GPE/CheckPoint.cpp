@@ -5,7 +5,7 @@
 
 ACheckPoint::ACheckPoint()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	SetActorEnableCollision(true);
 	OnActorBeginOverlap.AddDynamic(this, &ACheckPoint::OnCheckPointOverlap);
 }
@@ -33,7 +33,8 @@ void ACheckPoint::OnCheckPointOverlap(AActor* _overlappedActor, AActor* _otherAc
 	AKart* _playerKart = Cast<AKart>(_otherActor);
 	if (_playerKart)
 	{
-		if (UGameInstance* _gameInstance = GetGameInstance())
+		UKismetSystemLibrary::PrintString(this, "Check");
+		/*if (UGameInstance* _gameInstance = GetGameInstance())
 		{
 			if (URaceSubSystem* _raceSubsystem = _gameInstance->GetSubsystem<URaceSubSystem>())
 			{
@@ -44,6 +45,16 @@ void ACheckPoint::OnCheckPointOverlap(AActor* _overlappedActor, AActor* _otherAc
 					UKismetSystemLibrary::PrintString(this, "Check");
 				}
 			}
+		}*/
+		if (_playerKart->HasAuthority())
+		{
+			_playerKart->ValidateCheckpoint(this);
+
+			onCheckpointValidated.Broadcast(_playerKart, this);
+		}
+		else
+		{
+			_playerKart->Server_ValidateCheckpoint(this);
 		}
 	}
 }

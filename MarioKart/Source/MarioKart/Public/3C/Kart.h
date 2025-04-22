@@ -35,6 +35,12 @@ class MARIOKART_API AKart : public APawn
 
 {
 	GENERATED_BODY()
+
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnLapCompleted, class AKart*, _kart);
+	UPROPERTY() FOnLapCompleted onLapCompleted; 
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRaceFinished, class AKart*, _kart);
+	UPROPERTY() FOnRaceFinished onRaceFinished;
+
 	UPROPERTY(EditAnywhere)TObjectPtr<USpringArmComponent>arm;
 	UPROPERTY(EditAnywhere)TObjectPtr<UCameraComponent>camera;
 	UPROPERTY(EditAnywhere)TObjectPtr<UStaticMeshComponent>mesh;
@@ -44,6 +50,8 @@ class MARIOKART_API AKart : public APawn
 	UPROPERTY(EditAnywhere)TObjectPtr<UInventoryComponent>inventory;
 	UPROPERTY(EditAnywhere)bool shootBehind = false;
 	UPROPERTY() int currentCheckPointIndex = 0;
+	UPROPERTY() int currentLap = 0;
+	UPROPERTY() int maxLap = 3;
 	UPROPERTY() int lapsCompleted = 0;
 	UPROPERTY() URaceSubSystem* raceSubSystem;
 protected:
@@ -52,6 +60,10 @@ public:
 	FORCEINLINE TObjectPtr<UKartMovementComponent> GetMovement() { return movement; }
 	FORCEINLINE TObjectPtr<UInventoryComponent> GetInventory() { return inventory; }
 	FORCEINLINE bool GetShootDirection() const { return shootBehind; }
+
+	FORCEINLINE FOnLapCompleted& OnLapCompleted() { return onLapCompleted; }
+	FORCEINLINE FOnRaceFinished& OnRaceFinished() { return onRaceFinished; }
+	FORCEINLINE int GetLapCompleted()const { return currentLap; }
 
 public:
 	// Sets default values for this pawn's properties
@@ -75,6 +87,8 @@ protected:
 public:
 	void ToggleShootDirection(const FInputActionValue& _value);
 	void SetCurrentCheckpoint(int _checkpoint);
+	UFUNCTION(Server, Reliable)void Server_ValidateCheckpoint(ACheckPoint* _checkpoint);
+	void ValidateCheckpoint(ACheckPoint* _checkPoint);
 
 
 };
