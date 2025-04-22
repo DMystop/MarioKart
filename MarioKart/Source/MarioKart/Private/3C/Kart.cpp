@@ -69,9 +69,8 @@ void AKart::Tick(float DeltaTime)
 void AKart::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-	/*DOREPLIFETIME(AKart, currentCheckPointIndex);
-	DOREPLIFETIME(AKart, currentLap);*/
+	DOREPLIFETIME(AKart, currentCheckPointIndex);
+	DOREPLIFETIME(AKart, currentLap);
 }
 
 // Called to bind functionality to input
@@ -123,26 +122,27 @@ void AKart::ToggleShootDirection(const FInputActionValue& _value)
 
 void AKart::SetCurrentCheckpoint(int _checkpoint)
 {
-	//if (!raceSubSystem) return;
+	if (!raceSubSystem) return;
 
-	//if (_checkpoint == 0 && currentCheckPointIndex == raceSubSystem->GetTotalCheckpoints() - 1)
-	//{
-	//	lapsCompleted++;
-	//	if (lapsCompleted >= 3) // 3 laps
-	//	{
-	//		UKismetSystemLibrary::PrintString(this, "Finish");
-	//		return;
-	//	}
-	//}
+	if (_checkpoint == 0 && currentCheckPointIndex == raceSubSystem->GetTotalCheckpoints() - 1)
+	{
+		lapsCompleted++;
+		if (lapsCompleted >= 3) // 3 laps
+		{
+			UKismetSystemLibrary::PrintString(this, "Finish");
+			return;
+		}
+	}
 
-	//currentCheckPointIndex = _checkpoint;
 
 	currentCheckPointIndex = _checkpoint;
+	raceSubSystem->UpdateRaceProgress();
 }
 
 void AKart::ValidateCheckpoint(ACheckPoint* _checkpoint)
 {
 	if (!raceSubSystem || !_checkpoint)return;
+	UKismetSystemLibrary::PrintString(this, "ValidatedCheckpoint!");
 
 	const TArray<ACheckPoint*>& _checkpoints = raceSubSystem->GetCheckpoints();
 	if (_checkpoints.Num() == 0)
@@ -180,6 +180,21 @@ void AKart::ValidateCheckpoint(ACheckPoint* _checkpoint)
 			_checkpoint->OnCheckpointValidated().Broadcast(this, _checkpoint);
 		}
 	}
+}
+
+bool AKart::Server_ValidateCheckpoint_Validate(ACheckPoint* _checkpoint)
+{
+	return true; 
+}
+
+void AKart::OnRep_CurrentCheckpoint()
+{
+	UKismetSystemLibrary::PrintString(this, "Checkpoint chenged !");
+}
+
+void AKart::OnRep_CurrentLap()
+{
+	UKismetSystemLibrary::PrintString(this, "Lap changed !");
 }
 
 void AKart::Server_ValidateCheckpoint_Implementation(ACheckPoint* _checkpoint)

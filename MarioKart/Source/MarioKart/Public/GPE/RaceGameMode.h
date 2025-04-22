@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Net/UnrealNetwork.h"
 #include "RaceGameMode.generated.h"
 
 class URaceSubSystem;

@@ -8,6 +8,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GPE/RaceSubSystem.h"
+#include "Net/UnrealNetwork.h"
 #include "Kart.generated.h"
 
 class UKartMovementComponent;
@@ -49,8 +50,8 @@ class MARIOKART_API AKart : public APawn
 	UPROPERTY(EditAnywhere)TObjectPtr<UKartMovementComponent>movement;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInventoryComponent>inventory;
 	UPROPERTY(EditAnywhere)bool shootBehind = false;
-	UPROPERTY() int currentCheckPointIndex = 0;
-	UPROPERTY() int currentLap = 0;
+	UPROPERTY(ReplicatedUsing = OnRep_CurrentCheckpoint) int currentCheckPointIndex = 0;
+	UPROPERTY(ReplicatedUsing = OnRep_CurrentLap) int currentLap = 0;
 	UPROPERTY() int maxLap = 3;
 	UPROPERTY() int lapsCompleted = 0;
 	UPROPERTY() URaceSubSystem* raceSubSystem;
@@ -63,7 +64,8 @@ public:
 
 	FORCEINLINE FOnLapCompleted& OnLapCompleted() { return onLapCompleted; }
 	FORCEINLINE FOnRaceFinished& OnRaceFinished() { return onRaceFinished; }
-	FORCEINLINE int GetLapCompleted()const { return currentLap; }
+	FORCEINLINE int GetLapCompleted() { return currentLap; }
+	FORCEINLINE int GetCurrentCheckpoint() { return currentCheckPointIndex; }
 
 public:
 	// Sets default values for this pawn's properties
@@ -87,8 +89,11 @@ protected:
 public:
 	void ToggleShootDirection(const FInputActionValue& _value);
 	void SetCurrentCheckpoint(int _checkpoint);
-	UFUNCTION(Server, Reliable)void Server_ValidateCheckpoint(ACheckPoint* _checkpoint);
+	UFUNCTION(Server, Reliable, WithValidation)void Server_ValidateCheckpoint(ACheckPoint* _checkpoint);
+	bool Server_ValidateCheckpoint_Validate(ACheckPoint* _checkpoint);
 	void ValidateCheckpoint(ACheckPoint* _checkPoint);
+	UFUNCTION()void OnRep_CurrentCheckpoint();
+	UFUNCTION()void OnRep_CurrentLap();
 
 
 };

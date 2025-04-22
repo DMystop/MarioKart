@@ -84,6 +84,9 @@ void ARaceGameMode::Tick(float DeltaSeconds)
 				FinishRace(_leader);
 			}
 
+			if(HasAuthority())
+				_raceSubSystem->UpdateRaceProgress();
+
 			TArray<AKart*> _ranking = _raceSubSystem->GetRaceRanking();
 
 			FString _rankingString = "Leaderboard :\n";
@@ -106,7 +109,7 @@ void ARaceGameMode::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	//DOREPLIFETIME(ARaceGameMode, raceState);
+	DOREPLIFETIME(ARaceGameMode, raceState);
 }
 
 void ARaceGameMode::StartRaceCountdown()

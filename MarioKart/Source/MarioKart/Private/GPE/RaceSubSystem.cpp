@@ -214,6 +214,7 @@ void URaceSubSystem::UpdateRaceProgress()
 			}
 		}
 	}
+
 }
 
 ACheckPoint* URaceSubSystem::GetNextCheckpoint(int _currentCheckpointIndex) const
@@ -221,7 +222,10 @@ ACheckPoint* URaceSubSystem::GetNextCheckpoint(int _currentCheckpointIndex) cons
 	if (checkpoints.Num() == 0)
 		return nullptr;
 
-	return checkpoints[(_currentCheckpointIndex) % checkpoints.Num()];
+	//return checkpoints[(_currentCheckpointIndex) % checkpoints.Num()];
+
+	int _nextIndex = (_currentCheckpointIndex + 1) % checkpoints.Num();
+	return checkpoints[_nextIndex];
 }
 
 AKart* URaceSubSystem::GetLeader() const
@@ -244,6 +248,19 @@ AKart* URaceSubSystem::GetLeader() const
 
 TArray<AKart*> URaceSubSystem::GetRaceRanking() const
 {
+	/*for (FKartRaceInfo& _kartInfo : const_cast<TArray<FKartRaceInfo>&>(kartRaceInfos))
+	{
+		if (_kartInfo.kart)
+		{
+			ACheckPoint* _nextCheckpoint = GetNextCheckpoint(_kartInfo.currentCheckpoint);
+			if (_nextCheckpoint)
+			{
+				_kartInfo.distanceToNextCheckpoint = FVector::Dist(_kartInfo.kart->GetActorLocation(), _nextCheckpoint->GetActorLocation());
+			}
+		}
+	}*/
+
+
 	TArray<FKartRaceInfo> _sortedKartInfos = kartRaceInfos;
 
 	_sortedKartInfos.Sort([](const FKartRaceInfo& A, const FKartRaceInfo& B)
