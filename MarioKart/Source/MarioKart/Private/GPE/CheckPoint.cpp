@@ -52,7 +52,7 @@ void ACheckPoint::OnCheckPointOverlap(AActor* _overlappedActor, AActor* _otherAc
 	// SERVER
 	if (_playerKart->HasAuthority())
 	{
-		UKismetSystemLibrary::PrintString(this, "Server: Validate Checkpoint");
+		UKismetSystemLibrary::PrintString(this, "Server: Validate Checkpoint for " + _playerKart->GetName());
 		_playerKart->ValidateCheckpoint(this);
 		onCheckpointValidated.Broadcast(_playerKart, this);
 	}
