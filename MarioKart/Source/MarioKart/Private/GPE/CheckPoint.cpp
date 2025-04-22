@@ -57,11 +57,11 @@ void ACheckPoint::OnCheckPointOverlap(AActor* _overlappedActor, AActor* _otherAc
 		onCheckpointValidated.Broadcast(_playerKart, this);
 	}
 	// CLIENT
-	/*else if (_playerKart->IsLocallyControlled())
+	else if (_playerKart->IsLocallyControlled())
 	{
 		UKismetSystemLibrary::PrintString(this, "Client: Ask Server to Validate Checkpoint");
 		_playerKart->Server_ValidateCheckpoint(this);
-	}*/
+	}
 
 }
 

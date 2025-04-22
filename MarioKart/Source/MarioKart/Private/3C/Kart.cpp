@@ -184,7 +184,7 @@ void AKart::ValidateCheckpoint(ACheckPoint* _checkpoint)
 
 bool AKart::Server_ValidateCheckpoint_Validate(ACheckPoint* _checkpoint)
 {
-	return true; 
+	return _checkpoint != nullptr;;
 }
 
 void AKart::OnRep_CurrentCheckpoint()
@@ -201,7 +201,10 @@ void AKart::Server_ValidateCheckpoint_Implementation(ACheckPoint* _checkpoint)
 {
 	if (!_checkpoint)return;
 
-	ValidateCheckpoint(_checkpoint);
+	if (HasAuthority())
+	{
+		ValidateCheckpoint(_checkpoint);
+	}
 }
 
 
