@@ -27,6 +27,7 @@ struct FInput
 	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>useAction;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>shootBehindAction;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>stunAction;
+	UPROPERTY(EditAnywhere)TObjectPtr<UInputAction>driftAction;
 
 };
 
@@ -50,6 +51,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)TObjectPtr<UStunComponent>stunComponent;
 public:
 	FORCEINLINE TObjectPtr<UKartMovementComponent> GetMovement() { return movement; }
+	FORCEINLINE TObjectPtr<UStaticMeshComponent> GetMesh() { return mesh; }
 	FORCEINLINE TObjectPtr<UInventoryComponent> GetInventory() { return inventory; }
 	FORCEINLINE bool GetShootDirection() const { return shootBehind; }
 

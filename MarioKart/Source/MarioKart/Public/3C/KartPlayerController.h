@@ -20,5 +20,6 @@ class MARIOKART_API AKartPlayerController : public APlayerController
 private:
 	virtual void BeginPlay()override;
 	UFUNCTION(Server, Reliable) void ServerRPC_ChangePosition(AActor* _actor,FTransform _newTransform);
+	UFUNCTION(Server, Reliable) void ServerRPC_ChangeMesh(UStaticMeshComponent* _mesh,FTransform _newTransform);
 	UFUNCTION(Server, Reliable) void ServerRPC_Spawnactor(TSubclassOf<AItem> _actor,AKart* _kart);
 };
