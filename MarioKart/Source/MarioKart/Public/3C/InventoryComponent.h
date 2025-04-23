@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -41,7 +39,6 @@ public:
 	void UseItem(const FInputActionValue& _value);
 	UFUNCTION() void SetCanUseOnStun(bool _isStun);
 	UDashboardWidget* GetDashboardWidget() const;
-	// void UpdateItemDashboard(TSubclassOf<AItem> _item);
 	void UpdateItemDashboard();
 	void UpdateCoinDashboard();
 };

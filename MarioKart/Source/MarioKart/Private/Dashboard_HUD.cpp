@@ -7,6 +7,15 @@ void ADashboard_HUD::BeginPlay()
 {
 	Super::BeginPlay();
 	InitUI();
+
+	if (dashboardWidget)
+	{
+		currentDashboard = CreateWidget<UDashboardWidget>(GetWorld(), dashboardWidget);
+		if (currentDashboard)
+		{
+			currentDashboard->AddToViewport();
+		}
+	}
 }
 
 void ADashboard_HUD::InitUI()

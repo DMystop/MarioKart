@@ -17,14 +17,16 @@ void UDashboardWidget::UpdateItemsDashboard(const TArray<TSubclassOf<AItem>>& _i
 	firstItemSlot->SetBrushFromTexture(nullptr);
 	secondItemSlot->SetBrushFromTexture(nullptr);
 
-	for (int i = 0; i < _items.Num(); ++i)
+	for (int _i = 0; _i < _items.Num(); ++_i)
 	{
-		AItem* _tempItem = GetWorld()->SpawnActor<AItem>(_items[i]);
+		AItem* _tempItem = GetWorld()->SpawnActor<AItem>(_items[_i]);
 		if (!_tempItem) continue;
 
-		if (i == 0 && _tempItem->GetItemImage())
+		if (_i == 0 && _tempItem->GetItemImage())
+		{
 			firstItemSlot->SetBrushFromTexture(_tempItem->GetItemImage());
-		else if (i == 1 && _tempItem->GetItemImage())
+		}
+		else if (_i == 1 && _tempItem->GetItemImage())
 			secondItemSlot->SetBrushFromTexture(_tempItem->GetItemImage());
 
 		_tempItem->Destroy();
@@ -56,6 +58,7 @@ void UDashboardWidget::UpdateTotalLapsDashboard(const int _totalLaps)
 
 void UDashboardWidget::UpdatePlayerRankDashboard(const int _playerRank)
 {
+	
 	SetTextValue(playerRank, _playerRank);
 }
 
