@@ -18,6 +18,8 @@ class MARIOKART_API AMysteryItemBox : public AActor
 	UPROPERTY() TSubclassOf<AItem> carapaceClass;
 	UPROPERTY() TSubclassOf<AItem> bananaClass;
 	float runningTime = 0.0f;
+	UPROPERTY(EditAnywhere)float respawnTime = 5.0f; 
+	FTimerHandle respawnTimerHandle;
 
 
 private:
@@ -37,5 +39,7 @@ protected:
 	void Rotate(float _delta);
 	TSubclassOf<AItem> GiveRandomItem();
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+	void HandleTaken();
+	void Respawn();
 
 };

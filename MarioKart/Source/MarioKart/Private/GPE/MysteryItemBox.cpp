@@ -6,6 +6,8 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "3C/Kart.h"
 #include "3C/InventoryComponent.h"
+#include "GPE/ItemBoxSubSystem.h"
+#include <Kismet/KismetSystemLibrary.h>
 
 AMysteryItemBox::AMysteryItemBox()
 {
@@ -14,6 +16,10 @@ AMysteryItemBox::AMysteryItemBox()
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 
 	mesh->SetupAttachment(RootComponent);
+	
+	bReplicates = true;
+	mesh->SetIsReplicated(true);
+	SetReplicates(true);
 }
 
 void AMysteryItemBox::BeginPlay()
@@ -38,6 +44,7 @@ void AMysteryItemBox::Init()
 		availablesItems.Add(NewObject<AItem>(this, bananaClass));
 	if (carapaceClass)
 		availablesItems.Add(NewObject<AItem>(this, carapaceClass));*/
+
 
 	availablesItems.Add(mushroomClass);
 	availablesItems.Add(bananaClass);
@@ -88,8 +95,24 @@ void AMysteryItemBox::NotifyActorBeginOverlap(AActor* OtherActor)
 		UInventoryComponent* _inventory = _kart->GetComponentByClass<UInventoryComponent>();
 		if (!_inventory)return;
 		_inventory->AddItem(GiveRandomItem());
-		Destroy();
+		//Destroy();
+		HandleTaken();
 	}
 	
 }
+
+void AMysteryItemBox::HandleTaken()
+{
+	mesh->SetVisibility(false);
+	mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	GetWorldTimerManager().SetTimer(respawnTimerHandle, this, &AMysteryItemBox::Respawn, respawnTime, false);
+}
+
+void AMysteryItemBox::Respawn()
+{
+	mesh->SetVisibility(true);
+	mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+}
+
 
