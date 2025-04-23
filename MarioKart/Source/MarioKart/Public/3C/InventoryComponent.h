@@ -8,6 +8,7 @@
 #include "InventoryComponent.generated.h"
 
 class AItem;
+class UDashboardWidget;
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class MARIOKART_API UInventoryComponent : public UActorComponent
 {
@@ -17,12 +18,13 @@ class MARIOKART_API UInventoryComponent : public UActorComponent
 	UPROPERTY(EditAnywhere)TArray<TSubclassOf<AItem>> items;
 	UPROPERTY(EditAnywhere)int maxCount = 2;
 	UPROPERTY(EditAnywhere) bool canUse = true;
-
+	UPROPERTY(EditAnywhere) int coinCount = 0;
 public:
 	FORCEINLINE FOnUse& OnUse()
 	{
 		return onUse;
 	}
+	void AddCoin(const int _count);
 public:
 	// Sets default values for this component's properties
 	UInventoryComponent();
@@ -38,5 +40,8 @@ public:
 	void AddItem(TSubclassOf<AItem> _item);
 	void UseItem(const FInputActionValue& _value);
 	UFUNCTION() void SetCanUseOnStun(bool _isStun);
-
+	UDashboardWidget* GetDashboardWidget() const;
+	// void UpdateItemDashboard(TSubclassOf<AItem> _item);
+	void UpdateItemDashboard();
+	void UpdateCoinDashboard();
 };

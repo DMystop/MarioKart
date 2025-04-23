@@ -4,6 +4,7 @@
 #include "GPE/Banana.h"
 #include "GPE/Carapace.h"
 #include "Kismet/KismetMathLibrary.h"
+#include"Kismet/KismetSystemLibrary.h"
 #include "3C/Kart.h"
 #include "3C/InventoryComponent.h"
 
@@ -19,7 +20,7 @@ AMysteryItemBox::AMysteryItemBox()
 void AMysteryItemBox::BeginPlay()
 {
 	Super::BeginPlay();
-	Init();
+	// Init();
 }
 
 void AMysteryItemBox::Tick(float DeltaTime)
@@ -39,9 +40,9 @@ void AMysteryItemBox::Init()
 	if (carapaceClass)
 		availablesItems.Add(NewObject<AItem>(this, carapaceClass));*/
 
-	availablesItems.Add(mushroomClass);
-	availablesItems.Add(bananaClass);
-	availablesItems.Add(carapaceClass);
+	//availablesItems.Add(mushroomClass);
+	//availablesItems.Add(bananaClass);
+	//availablesItems.Add(carapaceClass);
 }
 
 void AMysteryItemBox::Levitate(float _delta)
@@ -70,10 +71,18 @@ TSubclassOf<AItem> AMysteryItemBox::GiveRandomItem()
 
 	return availablesItems[_randomIndex];*/
 
-	if (!IsValidItemArray())return nullptr;
+
+	if (!IsValidItemArray())
+	{
+		UKismetSystemLibrary::PrintString(this, "Salut");
+		return nullptr;
+	}
 
 	int _count = availablesItems.Num() - 1;
+	UKismetSystemLibrary::PrintString(this, "Count => " + FString::FromInt(_count), true, true, FLinearColor::Red, 10.0f);
 	int _randomIndex = FMath::RandRange(0, _count);
+	UKismetSystemLibrary::PrintString(this, "Random Index => " + FString::FromInt(_randomIndex), true, true, FLinearColor::Red, 10.0f);
+
 
 	return availablesItems[_randomIndex];
 }
