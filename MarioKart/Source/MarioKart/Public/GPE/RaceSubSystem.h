@@ -38,10 +38,6 @@ class MARIOKART_API URaceSubSystem : public UGameInstanceSubsystem
 	bool raceStarted = false;
 
 public:
-	/*FORCEINLINE int GetTotalCheckpoints()const { return checkpoints.Num(); }
-	FORCEINLINE TArray<ACheckPoint*> GetCheckpoints() { return checkpoints; }
-	FORCEINLINE TArray<FKartRaceInfo> GetKartInfosRaces() { return kartRaceInfos; }
-	FORCEINLINE int MaxLaps()const { return maxLaps; }*/
 
 	FORCEINLINE FOnRaceStarted& OnRaceStarted() { return onRaceStarted; }
 	FORCEINLINE FOnRaceFinished& OnRaceFinished() { return onRaceFinish; }
@@ -52,14 +48,6 @@ public:
 	int GetMaxLaps() const { return maxLaps; }
 
 public:
-	/*void RegisterCheckpoint(ACheckPoint* _newCheckpoint);
-	ACheckPoint* GetNextCheckpoint(AActor* _player, int _currentCheckpointIndex) const;
-	bool IsGoingWrongWay(AActor* _player, int _currentCheckpointIndex) const;
-	void RegisterKart(AKart* _newKart);
-	void UpdateRaceProgress();
-	AKart* GetLeader() const;
-	TArray<AKart*> GetRaceRanking() const;*/
-
 	void RegisterCheckpoint( ACheckPoint* _newCheckpoint);
 	void RegisterKart(AKart* _newKart);
 	void StartRace();

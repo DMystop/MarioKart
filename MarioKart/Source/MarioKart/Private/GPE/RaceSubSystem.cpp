@@ -3,142 +3,6 @@
 #include "3C/Kart.h"
 #include <Kismet/KismetSystemLibrary.h>
 
-//void URaceSubSystem::RegisterCheckpoint(ACheckPoint* _newCheckpoint)
-//{
-//	if (_newCheckpoint)
-//	{
-//		UKismetSystemLibrary::PrintString(this, "Register CheckPoint");
-//		checkpoints.Add(_newCheckpoint);
-//	}
-//}
-
-//ACheckPoint* URaceSubSystem::GetNextCheckpoint(AActor* _player, int _currentCheckpointIndex) const
-//{
-//	if (checkpoints.Num() == 0 || _currentCheckpointIndex < 0 || _currentCheckpointIndex >= checkpoints.Num())
-//	{
-//		return nullptr;
-//	}
-//	// return next checkpoint
-//	return checkpoints[(_currentCheckpointIndex + 1) % checkpoints.Num()];
-//}
-//
-//bool URaceSubSystem::IsGoingWrongWay(AActor* _player, int _currentCheckpointIndex) const
-//{
-//	if (!_player || checkpoints.Num() == 0)
-//	{
-//		return false;
-//	}
-//
-//	ACheckPoint* _nextCheckpoint = GetNextCheckpoint(_player, _currentCheckpointIndex);
-//	if (!_nextCheckpoint)
-//	{
-//		return false;
-//	}
-//
-//	FVector _playerDirection = _player->GetVelocity().GetSafeNormal();
-//	FVector _toCheckpoint = (_nextCheckpoint->GetActorLocation() - _player->GetActorLocation()).GetSafeNormal();
-//
-//	// if angle between player directin and checkpoint is too hight , wrong way
-//	float _dotProduct = FVector::DotProduct(_playerDirection, _toCheckpoint);
-//	return _dotProduct < 0; // < 0 => Wrong way
-//}
-//
-//void URaceSubSystem::RegisterKart(AKart* _newKart)
-//{
-//	if (!_newKart) return;
-//
-//	FKartRaceInfo _kartInfo;
-//	_kartInfo.kart = _newKart;
-//	kartRaceInfos.Add(_kartInfo);
-//}
-//
-//void URaceSubSystem::UpdateRaceProgress()
-//{
-//	for (FKartRaceInfo& _kartInfo : kartRaceInfos)
-//	{
-//		UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(2.0f));
-//
-//		if (!_kartInfo.kart) continue;
-//
-//		// check if he is at the next checkpoint
-//		ACheckPoint* _nextCheckpoint = GetNextCheckpoint(_kartInfo.kart, _kartInfo.currentCheckpoint);
-//		if (!_nextCheckpoint) continue;
-//
-//		float _distance = FVector::Dist(_kartInfo.kart->GetActorLocation(), _nextCheckpoint->GetActorLocation());
-//		_kartInfo.distanceToNextCheckpoint = _distance;
-//		UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(_distance));
-//
-//		if (_distance < 200.0f) // if near of checkpoint
-//		{
-//			_kartInfo.currentCheckpoint++;
-//
-//			// if a lap is made
-//			if (_kartInfo.currentCheckpoint >= checkpoints.Num())
-//			{
-//				_kartInfo.currentCheckpoint = 0;
-//				_kartInfo.currentLap++;
-//				UKismetSystemLibrary::PrintString(this, " Next laps !");
-//
-//				if (_kartInfo.currentLap >= maxLaps)
-//				{
-//					UKismetSystemLibrary::PrintString(this, _kartInfo.kart->GetName() + " won !");
-//					return; // end race
-//				}
-//			}
-//		}
-//	}
-//}
-//
-//AKart* URaceSubSystem::GetLeader() const
-//{
-//	if (kartRaceInfos.Num() == 0) return nullptr;
-//
-//	FKartRaceInfo _leader = kartRaceInfos[0];
-//
-//	for (const FKartRaceInfo& KartInfo : kartRaceInfos)
-//	{
-//		if (KartInfo.currentLap > _leader.currentLap ||
-//			(KartInfo.currentLap == _leader.currentLap && KartInfo.currentCheckpoint > _leader.currentCheckpoint))
-//		{
-//			_leader = KartInfo;
-//		}
-//	}
-//
-//	return _leader.kart;
-//}
-//
-//TArray<AKart*> URaceSubSystem::GetRaceRanking() const
-//{
-//	TArray<FKartRaceInfo> _sortedKartInfos = kartRaceInfos;
-//
-//	_sortedKartInfos.Sort([](const FKartRaceInfo& A, const FKartRaceInfo& B)
-//		{
-//			if (A.currentLap != B.currentLap)
-//			{
-//				return A.currentLap > B.currentLap; 
-//			}
-//
-//			if (A.currentCheckpoint != B.currentCheckpoint)
-//			{
-//				return A.currentCheckpoint > B.currentCheckpoint; 
-//			}
-//
-//			return A.distanceToNextCheckpoint < B.distanceToNextCheckpoint; 
-//		});
-//
-//	TArray<AKart*> _ranking;
-//	for (const FKartRaceInfo& _kartInfo : _sortedKartInfos)
-//	{
-//		_ranking.Add(_kartInfo.kart);
-//	}
-//
-//	return _ranking;
-//}
-
-
-
-
-
 void URaceSubSystem::RegisterCheckpoint(ACheckPoint* _newCheckpoint)
 {
 	if (_newCheckpoint)
@@ -166,14 +30,14 @@ void URaceSubSystem::StartRace()
 	raceStarted = true;
 	onRaceStarted.Broadcast();
 
-	UKismetSystemLibrary::PrintString(this, "Race Started !");
+	UKismetSystemLibrary::PrintString(this, "Race Started !", true, true, FLinearColor::Red, 10.0f);
 }
 
 void URaceSubSystem::UpdateRaceProgress()
 {
 	if (!raceStarted)
 		return;
-
+	//UKismetSystemLibrary::PrintString(this, "Update");
 	for (FKartRaceInfo& _kartInfo : kartRaceInfos)
 	{
 		if (!_kartInfo.kart)
@@ -190,26 +54,27 @@ void URaceSubSystem::UpdateRaceProgress()
 		if (_distance < 200.0f)
 		{
 			_kartInfo.currentCheckpoint++;
+			UKismetSystemLibrary::PrintString(this, "Current CheckPoint : " + FString::FromInt(_kartInfo.currentCheckpoint));
 
 			// if check all the checkpoints
-			if (_kartInfo.currentCheckpoint >= checkpoints.Num())
+			if (_kartInfo.currentCheckpoint >= checkpoints.Num() - 1)
 			{
 				_kartInfo.currentCheckpoint = 0;
 				_kartInfo.currentLap++;
-
+				UKismetSystemLibrary::PrintString(this, "Current Lap : " + FString::FromInt(_kartInfo.currentLap), true, true, FLinearColor::Yellow, 10.0f);
 				onKartLapCompleted.Broadcast(_kartInfo.kart, _kartInfo.currentLap);
 
 				// if finished laps
-				if (_kartInfo.currentLap >= maxLaps)
+				if (_kartInfo.currentLap >=  3/*maxLaps*/)
 				{
 					onRaceFinish.Broadcast(_kartInfo.kart);
-					raceStarted = false;
-					UKismetSystemLibrary::PrintString(this, _kartInfo.kart->GetName() + " WON the race !");
+					//raceStarted = false;
+					UKismetSystemLibrary::PrintString(this, _kartInfo.kart->GetName() + " WON the race !", true, true, FLinearColor::Red, 10.0f);
 					break;
 				}
 				else
 				{
-					UKismetSystemLibrary::PrintString(this, _kartInfo.kart->GetName() + " completed a lap !");
+					UKismetSystemLibrary::PrintString(this, _kartInfo.kart->GetName() + " completed a lap !", true, true, FLinearColor::Red, 10.0f);
 				}
 			}
 		}
@@ -298,24 +163,24 @@ int URaceSubSystem::GetKartPlacement(AKart* _kart) const
 		{
 			if (A.currentLap != B.currentLap)
 			{
-				return A.currentLap > B.currentLap; // Plus de tours
+				return A.currentLap > B.currentLap; // More laps
 			}
 
 			if (A.currentCheckpoint != B.currentCheckpoint)
 			{
-				return A.currentCheckpoint > B.currentCheckpoint; // Plus loin dans les checkpoints
+				return A.currentCheckpoint > B.currentCheckpoint; // far in checkpoints
 			}
 
-			return A.distanceToNextCheckpoint < B.distanceToNextCheckpoint; // Plus proche du prochain checkpoint
+			return A.distanceToNextCheckpoint < B.distanceToNextCheckpoint; // near next checkpoints
 		});
 
 	for (int i = 0; i < _sortedKartInfos.Num(); ++i)
 	{
 		if (_sortedKartInfos[i].kart == _kart)
 		{
-			return i + 1; // 1 = premier, 2 = deuxième etc
+			return i + 1; //1st, 2nd , ...
 		}
 	}
 
-	return -1; // Pas trouvé
+	return -1; // not found
 }
