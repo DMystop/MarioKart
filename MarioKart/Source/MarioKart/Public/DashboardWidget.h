@@ -11,6 +11,7 @@
 /**
  * 
  */
+class AItem;
 UCLASS()
 class MARIOKART_API UDashboardWidget : public UUserWidget
 {
@@ -22,29 +23,19 @@ class MARIOKART_API UDashboardWidget : public UUserWidget
 	UPROPERTY(EditAnywhere, Category = "Buttons", meta = (BindWidgetOptional)) TObjectPtr<UTextBlock> currentLap = nullptr;
 	UPROPERTY(EditAnywhere, Category = "Buttons", meta = (BindWidgetOptional)) TObjectPtr<UTextBlock> totalLaps = nullptr;
 
-	UPROPERTY(EditAnywhere, Category = "Buttons", meta = (BindWidgetOptional)) TObjectPtr<UImage> firstItemImage = nullptr;
-	UPROPERTY(EditAnywhere, Category = "Buttons", meta = (BindWidgetOptional)) TObjectPtr<UImage> secondItemImage = nullptr;
+	UPROPERTY(EditAnywhere, Category = "Buttons", meta = (BindWidgetOptional)) TObjectPtr<UImage> firstItemSlot = nullptr;
+	UPROPERTY(EditAnywhere, Category = "Buttons", meta = (BindWidgetOptional)) TObjectPtr<UImage> secondItemSlot = nullptr;
 
 public:
-    FORCEINLINE TObjectPtr<UTextBlock> GetCoinCount() const { return coinCount; }
-    FORCEINLINE void SetCoinCount(TObjectPtr<UTextBlock> InCoinCount) { coinCount = InCoinCount; }
+    void SetItemImage(TObjectPtr<UImage> _image, UTexture2D* _newImage);
+    void UpdateItemsDashboard(const TArray<TSubclassOf<AItem>>& Items);
+	void SetTextValue(UTextBlock* textBlock, int32 value);
+    void UpdateCoinDashboard(const int _coinCount);
+    void UpdateCurrentLapsDashboard(const int _currentLap);
+    void UpdateTotalLapsDashboard(const int _totalLaps);
+	void UpdatePlayerRankDashboard(const int _playerRank);
 
-    FORCEINLINE TObjectPtr<UTextBlock> GetPlayerRank() const { return playerRank; }
-    FORCEINLINE void SetPlayerRank(TObjectPtr<UTextBlock> InPlayerRank) { playerRank = InPlayerRank; }
 
-    FORCEINLINE TObjectPtr<UTextBlock> GetCurrentLap() const { return currentLap; }
-    FORCEINLINE void SetCurrentLap(TObjectPtr<UTextBlock> InCurrentLap) { currentLap = InCurrentLap; }
-
-    FORCEINLINE TObjectPtr<UTextBlock> GetTotalLaps() const { return totalLaps; }
-    FORCEINLINE void SetTotalLaps(TObjectPtr<UTextBlock> InTotalLaps) { totalLaps = InTotalLaps; }
-
-    FORCEINLINE TObjectPtr<UImage> GetFirstItemImage() const { return firstItemImage; }
-    FORCEINLINE void SetFirstItemImage(TObjectPtr<UImage> InFirstItemImage) { firstItemImage = InFirstItemImage; }
-
-    FORCEINLINE TObjectPtr<UImage> GetSecondItemImage() const { return secondItemImage; }
-    FORCEINLINE void SetSecondItemImage(TObjectPtr<UImage> InSecondItemImage) { secondItemImage = InSecondItemImage; }
 private:
 	virtual void NativeConstruct() override;
-	void InitBinding();
-
 };

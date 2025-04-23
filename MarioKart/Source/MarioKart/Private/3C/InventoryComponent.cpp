@@ -3,10 +3,23 @@
 
 #include "3C/InventoryComponent.h"
 #include "GPE/Item.h"
+#include <Dashboard_HUD.h>
 #include"Kismet/KismetSystemLibrary.h"
 
 
-// Sets default values for this component's properties
+void UInventoryComponent::AddCoin(const int _count)
+{
+	coinCount = (coinCount + _count > 10) ? 10 : coinCount + _count;
+	APlayerController* _playerController = GetWorld()->GetFirstPlayerController();
+	if (!_playerController) return;
+	ADashboard_HUD* _dashboardHUD = Cast<ADashboard_HUD>(_playerController->GetHUD());
+	if (!_dashboardHUD) return;
+	TObjectPtr<UDashboardWidget> _dashboardWidget = _dashboardHUD->GetCurrentDashboard();
+	if (!_dashboardWidget) return;
+	_dashboardWidget->UpdateCoinDashboard(coinCount);
+}
+
+
 UInventoryComponent::UInventoryComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
@@ -17,13 +30,11 @@ UInventoryComponent::UInventoryComponent()
 }
 
 
-// Called when the game starts
+// Called when the game starts	
 void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-
+	UpdateItemDashboard();
 }
 
 
@@ -38,10 +49,11 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UInventoryComponent::AddItem(TSubclassOf<AItem> _item)
 {
-	if (items.Num() - 1 >= 2)return;
+	if (items.Num() > 2) return;
 	items.Add(_item);
-
+	UpdateItemDashboard();
 }
+
 
 void UInventoryComponent::UseItem(const FInputActionValue& _value)
 {
@@ -58,16 +70,16 @@ void UInventoryComponent::UseItem(const FInputActionValue& _value)
 		FVector _spawnLoc = FVector(_owner->GetActorLocation().X + 450.0f, _owner->GetActorLocation().Y, _owner->GetActorLocation().Z);
 		AItem* _item = GetWorld()->SpawnActor<AItem>(items[0], _spawnLoc, _owner->GetActorRotation(), _spawnParams);
 		if (_item)
+		{
 			_item->Use(_owner);
-		
-
+		}
 	}
 	else
 	{
 		onUse.Broadcast(items[0], _owner);
 	}
 	items.RemoveAt(0);
-
+	UpdateItemDashboard();
 }
 
 void UInventoryComponent::SetCanUseOnStun(bool _isStun)
@@ -75,3 +87,24 @@ void UInventoryComponent::SetCanUseOnStun(bool _isStun)
 	canUse = !_isStun;
 }
 
+UDashboardWidget* UInventoryComponent::GetDashboardWidget() const
+{
+	APlayerController* _playerController = GetWorld()->GetFirstPlayerController();
+	if (!_playerController) return nullptr;
+
+	ADashboard_HUD* _dashboardHUD = Cast<ADashboard_HUD>(_playerController->GetHUD());
+	if (!_dashboardHUD) return nullptr;
+
+	return _dashboardHUD->GetCurrentDashboard();
+}
+
+
+void UInventoryComponent::UpdateItemDashboard()
+{
+	GetDashboardWidget()->UpdateItemsDashboard(items);
+}
+
+void UInventoryComponent::UpdateCoinDashboard()
+{
+	GetDashboardWidget()->UpdateItemsDashboard(items);
+}

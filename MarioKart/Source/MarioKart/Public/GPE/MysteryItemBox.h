@@ -25,8 +25,8 @@ private:
 	{
 		return availablesItems.Num() > 0;
 	}
-	
-public:	
+
+public:
 	AMysteryItemBox();
 
 protected:

@@ -15,6 +15,7 @@ protected:
 	
 public:	
 	AItem();
+	FORCEINLINE TObjectPtr<UTexture2D> GetItemImage() { return itemImage; }
 
 public:
 	virtual void Use(AKart* _targetKart) PURE_VIRTUAL(AItem::Use, );
