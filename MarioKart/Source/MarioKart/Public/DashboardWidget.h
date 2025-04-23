@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -9,7 +7,7 @@
 #include "DashboardWidget.generated.h"
 
 /**
- * 
+ *
  */
 class AItem;
 UCLASS()
@@ -26,13 +24,14 @@ class MARIOKART_API UDashboardWidget : public UUserWidget
 	UPROPERTY(EditAnywhere, Category = "Buttons", meta = (BindWidgetOptional)) TObjectPtr<UImage> firstItemSlot = nullptr;
 	UPROPERTY(EditAnywhere, Category = "Buttons", meta = (BindWidgetOptional)) TObjectPtr<UImage> secondItemSlot = nullptr;
 
+
 public:
-    void SetItemImage(TObjectPtr<UImage> _image, UTexture2D* _newImage);
-    void UpdateItemsDashboard(const TArray<TSubclassOf<AItem>>& Items);
+	void SetItemImage(TObjectPtr<UImage> _image, UTexture2D* _newImage);
+	void UpdateItemsDashboard(const TArray<TSubclassOf<AItem>>& Items);
 	void SetTextValue(UTextBlock* textBlock, int32 value);
-    void UpdateCoinDashboard(const int _coinCount);
-    void UpdateCurrentLapsDashboard(const int _currentLap);
-    void UpdateTotalLapsDashboard(const int _totalLaps);
+	void UpdateCoinDashboard(const int _coinCount);
+	void UpdateCurrentLapsDashboard(const int _currentLap);
+	void UpdateTotalLapsDashboard(const int _totalLaps);
 	void UpdatePlayerRankDashboard(const int _playerRank);
 
 

@@ -8,7 +8,7 @@ UGIS_Online::UGIS_Online()
 	maxPlayersCount = 4;
 	serverName = "Groupe Universal Studio";
 	sessionName = "Unknown";
-	levelPath = "LVL_Final"; // LVL_Final
+	levelPath = "LVL_Julio"; // LVL_Final
 	mainMenuLevelPath = "LVL_MainMenu";
 	lobbyLevelPath = "LVL_Lobby";
 	ipAddress = "Unknown";

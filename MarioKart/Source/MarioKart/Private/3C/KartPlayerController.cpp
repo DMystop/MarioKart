@@ -4,6 +4,7 @@
 #include "3C/KartPlayerController.h"
 #include "3C/KartMovementComponent.h"
 #include "3C/InventoryComponent.h"
+#include <Dashboard_HUD.h>
 #include <Kismet/KismetSystemLibrary.h>
 
 void AKartPlayerController::BeginPlay()
@@ -23,6 +24,15 @@ void AKartPlayerController::BeginPlay()
 		if (_inventory)
 			_inventory->OnUse().AddDynamic(this, &AKartPlayerController::ServerRPC_Spawnactor);
 	}
+
+	//if (IsLocalController())
+	//{
+	//	ADashboard_HUD* HUD = Cast<ADashboard_HUD>(GetHUD());
+	//	if (HUD)
+	//	{
+	//		HUD->InitDashboardWidget();
+	//	}
+	//}
 }
 
 void AKartPlayerController::ServerRPC_Spawnactor_Implementation(TSubclassOf<AItem> _actor, AKart* _kart)
