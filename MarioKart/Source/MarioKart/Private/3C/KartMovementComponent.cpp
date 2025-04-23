@@ -4,6 +4,7 @@
 #include "3C/KartMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include"3C/Kart.h"
 
 // Sets default values for this component's properties
 UKartMovementComponent::UKartMovementComponent()
@@ -23,6 +24,7 @@ void UKartMovementComponent::BeginPlay()
 
 	GetWorld()->GetTimerManager().SetTimer(detectTimer,this, &UKartMovementComponent::DetectRoad, 0.5f, true);
 	
+	kart = Cast<AKart>(GetOwner());
 	// ...
 
 }
@@ -33,6 +35,13 @@ void UKartMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	Move(DeltaTime);
+	if (isJump)
+	{
+		JumpToDrift(DeltaTime);
+	}
+	UpdateDriftKart(DeltaTime);
+	if (isDrifting)
+		RotateDrift(driftDirection);
 	// ...
 }
 
@@ -49,7 +58,7 @@ void UKartMovementComponent::Accelerate(const FInputActionValue& _value)
 	else
 	{
 		currentSpeed = currentSpeed > maxSpeed/2 ? maxSpeed/2 : currentSpeed;
-		UKismetSystemLibrary::PrintString(this, "HorsPiste");
+		//UKismetSystemLibrary::PrintString(this, "HorsPiste");
 	}
 
 	//UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(acceleration)+"km/h");
@@ -60,12 +69,26 @@ void UKartMovementComponent::Accelerate(const FInputActionValue& _value)
 void UKartMovementComponent::Rotate(const FInputActionValue& _value)
 {
 	float _inputRotation = _value.Get<float>();
+	direction = _inputRotation;
 	if (_inputRotation == 0 || currentSpeed == 0)return;
-	float _rotationValue = _inputRotation * rotationSpeed * (1 - (currentSpeed / maxSpeed) + minRotation) * GetWorld()->DeltaTimeSeconds;
+	float _speed = isDrifting ? rotationSpeed / 2 : rotationSpeed;
+	float _rotationValue = _inputRotation * _speed * (1 - (currentSpeed / maxSpeed) + minRotation) * GetWorld()->DeltaTimeSeconds;
 	//UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(_rotationValue));
 	APawn* _owner = Cast<APawn>(GetOwner());
 	_owner->AddControllerYawInput(_rotationValue);
 
+}
+
+void UKartMovementComponent::RotateDrift(float _value)
+{
+	
+	
+	if (currentSpeed == 0)return;
+
+	float _rotationValue = _value * driftSpeed * (1 - (currentSpeed / maxSpeed) + minRotation) * GetWorld()->DeltaTimeSeconds;
+	//UKismetSystemLibrary::PrintString(this, FString::SanitizeFloat(_rotationValue));
+	APawn* _owner = Cast<APawn>(GetOwner());
+	_owner->AddControllerYawInput(_rotationValue);
 }
 
 void UKartMovementComponent::Move(float DeltaTime)
@@ -76,6 +99,10 @@ void UKartMovementComponent::Move(float DeltaTime)
 
 	FVector _forward = _owner->GetActorLocation() + _owner->GetActorForwardVector() * currentSpeed;
 
+	if (isDrifting)
+	{
+		_forward += driftDirection * _owner->GetActorRightVector()*currentSpeed/2;
+	}
 	FVector _newPos = UKismetMathLibrary::VInterpTo_Constant(_owner->GetActorLocation(), _forward, DeltaTime, abs(currentSpeed));
 
 	_owner->SetActorLocation(_newPos);
@@ -91,7 +118,6 @@ void UKartMovementComponent::Move(float DeltaTime)
 
 void UKartMovementComponent::GoBackToNeutral()
 {
-
 	if (currentSpeed > 0)
 	{
 		currentSpeed -= deceleration;
@@ -166,6 +192,7 @@ void UKartMovementComponent::SetMoveStun(bool _isStun)
 		boostIsActivate = false;
 		addVelocity = false;
 		canMove = false;
+		isDrifting = false;
 	}
 	else
 	{
@@ -179,6 +206,63 @@ void UKartMovementComponent::DetectRoad()
 	AActor* _owner = GetOwner();
 	TArray<FHitResult> _result = TArray<FHitResult>();
 	onRoad=UKismetSystemLibrary::LineTraceMultiForObjects(GetWorld(), _owner->GetActorLocation(), _owner->GetActorLocation()+FVector::DownVector * 3000, layers, false, _toIgnore, EDrawDebugTrace::ForDuration, _result,true);
+
+	if (!onRoad)
+		isDrifting = false;
+}
+
+void UKartMovementComponent::DriftEnter(const FInputActionValue& _value)
+{
+	if (!isJump)
+	{
+	start = kart->GetMesh()->GetRelativeLocation();
+	currentTime = 0;
+	isJump = true;
+
+	}
+	if (direction == 0||!addVelocity||!onRoad)return;
+	isDrifting = true;
+	driftDirection = direction;
+	//UKismetSystemLibrary::PrintString(this, "this");
+	//GetWorld()->GetTimerManager().SetTimer(jumpTimer, this,&UKartMovementComponent::JumpToDrift, 0.1f,true);
+}
+
+void UKartMovementComponent::DriftOut(const FInputActionValue& _value)
+{
+	isDrifting = false;
+}
+
+void UKartMovementComponent::JumpToDrift(float _deltaTime)
+{
+	currentTime += _deltaTime;
+
+	FVector _newLoc = start + jumpCurve->GetVectorValue(currentTime);
+	kart->GetMesh()->SetRelativeLocation(_newLoc);
+	if (currentTime > jumpCurve->FloatCurves->GetLastKey().Time)
+		/*GetWorld()->GetTimerManager().ClearTimer(jumpTimer)*/
+		isJump=false;
+
+	if (!kart->HasAuthority())
+		onMeshMove.Broadcast(kart->GetMesh(), kart->GetMesh()->GetRelativeTransform());
+}
+
+void UKartMovementComponent::UpdateDriftKart(float _deltaTime)
+{
+	if (!kart || !kart->GetMesh())return;
+
+	float _speed = isDrifting ? 10.f : 50.f;
+
+	float _yawOffset = isDrifting ? driftDirection * 10.f : 0;
+
+	FRotator _currentRot = kart->GetMesh()->GetRelativeRotation();
+	FRotator _targetRot = FRotator(_currentRot.Pitch, _yawOffset, _currentRot.Roll);
+
+	FRotator _rewRotation = FMath::RInterpConstantTo(_currentRot, _targetRot, _deltaTime, _speed);
+	kart->GetMesh()->SetRelativeRotation(_rewRotation);
+
+	
+	if (!kart->HasAuthority())
+		onMeshMove.Broadcast(kart->GetMesh(), kart->GetMesh()->GetRelativeTransform());
 }
 
 

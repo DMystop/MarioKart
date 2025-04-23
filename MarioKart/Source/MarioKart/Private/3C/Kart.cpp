@@ -89,6 +89,8 @@ void AKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	_input->BindAction(input.shootBehindAction, ETriggerEvent::Started, this, &AKart::ToggleShootDirection);
 	_input->BindAction(input.shootBehindAction, ETriggerEvent::Completed, this, &AKart::ToggleShootDirection);
 	_input->BindAction(input.stunAction, ETriggerEvent::Started, stunComponent.Get(), &UStunComponent::StunAction);
+	_input->BindAction(input.driftAction, ETriggerEvent::Started, movement.Get(), &UKartMovementComponent::DriftEnter);
+	_input->BindAction(input.driftAction, ETriggerEvent::Completed, movement.Get(), &UKartMovementComponent::DriftOut);
 
 }
 

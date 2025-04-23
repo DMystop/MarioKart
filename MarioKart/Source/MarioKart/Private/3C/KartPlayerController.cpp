@@ -20,9 +20,16 @@ void AKartPlayerController::BeginPlay()
 
 		if(_movement)
 			_movement->OnMove().AddDynamic(this, &AKartPlayerController::ServerRPC_ChangePosition);
+			_movement->OnMeshMove().AddDynamic(this, &AKartPlayerController::ServerRPC_ChangeMesh);
 		if (_inventory)
 			_inventory->OnUse().AddDynamic(this, &AKartPlayerController::ServerRPC_Spawnactor);
 	}
+}
+
+void AKartPlayerController::ServerRPC_ChangeMesh_Implementation(UStaticMeshComponent* _mesh, FTransform _newTransform)
+{
+	UKismetSystemLibrary::PrintString(this, "hello");
+	_mesh->SetRelativeTransform(_newTransform);
 }
 
 void AKartPlayerController::ServerRPC_Spawnactor_Implementation(TSubclassOf<AItem> _actor, AKart* _kart)
@@ -34,8 +41,10 @@ void AKartPlayerController::ServerRPC_Spawnactor_Implementation(TSubclassOf<AIte
 
 void AKartPlayerController::ServerRPC_ChangePosition_Implementation(AActor* _actor,FTransform _newTransform)
 {
-	UKismetSystemLibrary::PrintString(this, "coucou");
+	
 
 	
 	_actor->SetActorTransform(_newTransform);
+
+
 }
