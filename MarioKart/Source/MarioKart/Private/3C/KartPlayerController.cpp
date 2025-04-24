@@ -38,7 +38,7 @@ void AKartPlayerController::BeginPlay()
 
 void AKartPlayerController::ServerRPC_ChangeMesh_Implementation(UStaticMeshComponent* _mesh, FTransform _newTransform)
 {
-	UKismetSystemLibrary::PrintString(this, "hello");
+	//UKismetSystemLibrary::PrintString(this, "hello");
 	_mesh->SetRelativeTransform(_newTransform);
 }
 
