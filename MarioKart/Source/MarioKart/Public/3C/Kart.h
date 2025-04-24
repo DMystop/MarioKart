@@ -8,6 +8,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GPE/RaceSubSystem.h"
+#include "Net/UnrealNetwork.h"
 #include "Kart.generated.h"
 
 class UKartMovementComponent;
@@ -36,6 +37,12 @@ class MARIOKART_API AKart : public APawn
 
 {
 	GENERATED_BODY()
+
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnLapCompleted, class AKart*, _kart);
+	UPROPERTY() FOnLapCompleted onLapCompleted; 
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRaceFinished, class AKart*, _kart);
+	UPROPERTY() FOnRaceFinished onRaceFinished;
+
 	UPROPERTY(EditAnywhere)TObjectPtr<USpringArmComponent>arm;
 	UPROPERTY(EditAnywhere)TObjectPtr<UCameraComponent>camera;
 	UPROPERTY(EditAnywhere)TObjectPtr<UStaticMeshComponent>mesh;
@@ -44,7 +51,9 @@ class MARIOKART_API AKart : public APawn
 	UPROPERTY(EditAnywhere)TObjectPtr<UKartMovementComponent>movement;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInventoryComponent>inventory;
 	UPROPERTY(EditAnywhere)bool shootBehind = false;
-	UPROPERTY() int currentCheckPointIndex = 0;
+	UPROPERTY(ReplicatedUsing = OnRep_CurrentCheckpoint) int currentCheckPointIndex = 0;
+	UPROPERTY(ReplicatedUsing = OnRep_CurrentLap) int currentLap = 0;
+	UPROPERTY() int maxLap = 3;
 	UPROPERTY() int lapsCompleted = 0;
 	UPROPERTY() URaceSubSystem* raceSubSystem;
 protected:
@@ -54,6 +63,11 @@ public:
 	FORCEINLINE TObjectPtr<UStaticMeshComponent> GetMesh() { return mesh; }
 	FORCEINLINE TObjectPtr<UInventoryComponent> GetInventory() { return inventory; }
 	FORCEINLINE bool GetShootDirection() const { return shootBehind; }
+
+	FORCEINLINE FOnLapCompleted& OnLapCompleted() { return onLapCompleted; }
+	FORCEINLINE FOnRaceFinished& OnRaceFinished() { return onRaceFinished; }
+	FORCEINLINE int GetLapCompleted() { return currentLap; }
+	FORCEINLINE int GetCurrentCheckpoint() { return currentCheckPointIndex; }
 
 public:
 	// Sets default values for this pawn's properties
@@ -77,6 +91,11 @@ protected:
 public:
 	void ToggleShootDirection(const FInputActionValue& _value);
 	void SetCurrentCheckpoint(int _checkpoint);
+	UFUNCTION(Server, Reliable, WithValidation)void Server_ValidateCheckpoint(ACheckPoint* _checkpoint);
+	bool Server_ValidateCheckpoint_Validate(ACheckPoint* _checkpoint);
+	void ValidateCheckpoint(ACheckPoint* _checkPoint);
+	UFUNCTION()void OnRep_CurrentCheckpoint();
+	UFUNCTION()void OnRep_CurrentLap();
 
 
 };

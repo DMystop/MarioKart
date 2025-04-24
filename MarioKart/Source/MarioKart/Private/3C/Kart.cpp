@@ -63,12 +63,18 @@ void AKart::Bind()
 void AKart::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	int _placement = raceSubSystem->GetKartPlacement(this);
+	FString _string = "Player placement : ";
+	_string += FString::Printf(TEXT("%d. %s\n"), _placement);
+	//UKismetSystemLibrary::PrintString(this, _string);
 
 }
 
 void AKart::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AKart, currentCheckPointIndex);
+	DOREPLIFETIME(AKart, currentLap);
 }
 
 // Called to bind functionality to input
@@ -134,6 +140,79 @@ void AKart::SetCurrentCheckpoint(int _checkpoint)
 		}
 	}
 
+
 	currentCheckPointIndex = _checkpoint;
+	raceSubSystem->UpdateRaceProgress();
 }
+
+void AKart::ValidateCheckpoint(ACheckPoint* _checkpoint)
+{
+	if (!raceSubSystem || !_checkpoint)return;
+	UKismetSystemLibrary::PrintString(this, "ValidatedCheckpoint!");
+
+	const TArray<ACheckPoint*>& _checkpoints = raceSubSystem->GetCheckpoints();
+	if (_checkpoints.Num() == 0)
+		return;
+
+	if (_checkpoints.IsValidIndex(currentCheckPointIndex))
+	{
+		ACheckPoint* _expectedCheckpoint = _checkpoints[currentCheckPointIndex];
+		if (_expectedCheckpoint == _checkpoint)
+		{
+			currentCheckPointIndex++;
+
+			if (currentCheckPointIndex >= _checkpoints.Num())
+			{
+				currentCheckPointIndex = 0;
+				currentLap++;
+
+				onLapCompleted.Broadcast(this);
+
+				if (currentLap >= maxLap)
+				{
+					onRaceFinished.Broadcast(this);
+					UKismetSystemLibrary::PrintString(this, "Race Finished !");
+				}
+				else
+				{
+					UKismetSystemLibrary::PrintString(this, "Lap Completed !");
+				}
+			}
+			else
+			{
+				UKismetSystemLibrary::PrintString(this, "Checkpoint Validated !");
+			}
+
+			_checkpoint->OnCheckpointValidated().Broadcast(this, _checkpoint);
+		}
+	}
+}
+
+bool AKart::Server_ValidateCheckpoint_Validate(ACheckPoint* _checkpoint)
+{
+	return _checkpoint != nullptr;;
+}
+
+void AKart::OnRep_CurrentCheckpoint()
+{
+	UKismetSystemLibrary::PrintString(this, "Checkpoint chenged !");
+}
+
+void AKart::OnRep_CurrentLap()
+{
+	UKismetSystemLibrary::PrintString(this, "Lap changed !");
+}
+
+void AKart::Server_ValidateCheckpoint_Implementation(ACheckPoint* _checkpoint)
+{
+	if (!_checkpoint)return;
+
+	if (HasAuthority())
+	{
+		ValidateCheckpoint(_checkpoint);
+	}
+}
+
+
+
 

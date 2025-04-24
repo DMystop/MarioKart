@@ -5,7 +5,7 @@
 
 ACheckPoint::ACheckPoint()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	SetActorEnableCollision(true);
 	OnActorBeginOverlap.AddDynamic(this, &ACheckPoint::OnCheckPointOverlap);
 }
@@ -30,22 +30,39 @@ void ACheckPoint::Init()
 
 void ACheckPoint::OnCheckPointOverlap(AActor* _overlappedActor, AActor* _otherActor)
 {
-	AKart* _playerKart = Cast<AKart>(_otherActor);
+	/*AKart* _playerKart = Cast<AKart>(_otherActor);
 	if (_playerKart)
 	{
-		if (UGameInstance* _gameInstance = GetGameInstance())
+		if (_playerKart->HasAuthority())
 		{
-			if (URaceSubSystem* _raceSubsystem = _gameInstance->GetSubsystem<URaceSubSystem>())
-			{
-				int _checkpointIndex = _raceSubsystem->GetCheckpoints().Find(this);
-				if (_checkpointIndex != INDEX_NONE)
-				{
-					_playerKart->SetCurrentCheckpoint(_checkpointIndex);
-					UKismetSystemLibrary::PrintString(this, "Check");
-				}
-			}
+			_playerKart->ValidateCheckpoint(this);
+
+			onCheckpointValidated.Broadcast(_playerKart, this);
 		}
+		else
+		{
+			UKismetSystemLibrary::PrintString(this, "Client");
+			_playerKart->Server_ValidateCheckpoint(this);
+		}
+	}*/
+
+	AKart* _playerKart = Cast<AKart>(_otherActor);
+	if (!_playerKart) return;
+
+	// SERVER
+	if (_playerKart->HasAuthority())
+	{
+		UKismetSystemLibrary::PrintString(this, "Server: Validate Checkpoint for " + _playerKart->GetName());
+		_playerKart->ValidateCheckpoint(this);
+		onCheckpointValidated.Broadcast(_playerKart, this);
 	}
+	// CLIENT
+	else if (_playerKart->IsLocallyControlled())
+	{
+		UKismetSystemLibrary::PrintString(this, "Client: Ask Server to Validate Checkpoint");
+		_playerKart->Server_ValidateCheckpoint(this);
+	}
+
 }
 
 
