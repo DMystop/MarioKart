@@ -64,7 +64,9 @@ void AKart::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	int _placement = raceSubSystem->GetKartPlacement(this);
-	//UKismetSystemLibrary::PrintString(this, "Player placement : " + FString::FromInt(_placement));
+	FString _string = "Player placement : ";
+	_string += FString::Printf(TEXT("%d. %s\n"), _placement);
+	//UKismetSystemLibrary::PrintString(this, _string);
 
 }
 
