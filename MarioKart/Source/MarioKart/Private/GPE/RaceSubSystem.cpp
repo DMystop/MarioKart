@@ -1,7 +1,9 @@
 #include "GPE/RaceSubSystem.h"
 #include "GPE/CheckPoint.h"
 #include "3C/Kart.h"
+#include "DashboardWidget.h"
 #include <Kismet/KismetSystemLibrary.h>
+#include <Dashboard_HUD.h>
 
 void URaceSubSystem::RegisterCheckpoint(ACheckPoint* _newCheckpoint)
 {

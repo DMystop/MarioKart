@@ -8,6 +8,7 @@
 #include"3C/StunComponentComponent.h"
 #include "3C/InventoryComponent.h"
 #include <Kismet/KismetSystemLibrary.h>
+#include <Dashboard_HUD.h>
 #include "GPE/CheckPoint.h"
 
 
@@ -111,12 +112,43 @@ void AKart::InitInput()
 
 void AKart::Init()
 {
+	UKismetSystemLibrary::PrintString(this, "Hallo222", true, true, FLinearColor::Red, 10.0f);
+	ENetMode NetMode = GetWorld()->GetNetMode();
+	// on veut binder uniquement sur le client local (ou sur le listen-server local)
+	if (NetMode == NM_Client || (NetMode == NM_ListenServer && IsLocallyControlled()))
+	{
+		TryBindToHUD();
+	}
+
 	raceSubSystem = GetWorld()->GetGameInstance()->GetSubsystem<URaceSubSystem>();
 	if (raceSubSystem)
 	{
 		raceSubSystem->RegisterKart(this);
 		UKismetSystemLibrary::PrintString(this, "Register Kart");
 	}
+}
+
+void AKart::TryBindToHUD()
+{
+	if (isBoundToHUD) return;
+
+	if (ADashboard_HUD* _HUD = GetDashboardHUD())
+	{
+		_HUD->OnWidgetLoaded().AddDynamic(this, &AKart::ApplyTotalLapsToDashboard);
+		isBoundToHUD = true;
+		UKismetSystemLibrary::PrintString(this, TEXT("Bind HUD réussi"), true, true, FLinearColor::Green, 5.0f);
+	}
+	else
+	{
+		FTimerHandle _retryTimer;
+		GetWorldTimerManager().SetTimer(_retryTimer, this, &AKart::TryBindToHUD, 0.2f, false);
+	}
+}
+
+void AKart::ApplyTotalLapsToDashboard()
+{
+	UKismetSystemLibrary::PrintString(this, "Coucou" + FString::FromInt(maxLap), true, true, FLinearColor::Red, 10.0f);
+	GetDashboardWidget()->UpdateTotalLapsDashboard(maxLap);
 }
 
 void AKart::ToggleShootDirection(const FInputActionValue& _value)
@@ -145,6 +177,8 @@ void AKart::SetCurrentCheckpoint(int _checkpoint)
 	raceSubSystem->UpdateRaceProgress();
 }
 
+
+
 void AKart::ValidateCheckpoint(ACheckPoint* _checkpoint)
 {
 	if (!raceSubSystem || !_checkpoint)return;
@@ -166,6 +200,7 @@ void AKart::ValidateCheckpoint(ACheckPoint* _checkpoint)
 				currentCheckPointIndex = 0;
 				currentLap++;
 
+				OnRep_CurrentLap();
 				onLapCompleted.Broadcast(this);
 
 				if (currentLap >= maxLap)
@@ -184,9 +219,27 @@ void AKart::ValidateCheckpoint(ACheckPoint* _checkpoint)
 			}
 
 			_checkpoint->OnCheckpointValidated().Broadcast(this, _checkpoint);
+			// GetDashboardWidget()->UpdateCurrentLapsDashboard(currentLap);
+
 		}
 	}
 }
+
+UDashboardWidget* AKart::GetDashboardWidget() const
+{
+	return GetDashboardHUD()->GetCurrentDashboard();
+}
+
+ADashboard_HUD* AKart::GetDashboardHUD() const
+{
+	APlayerController* _playerController = Cast<APlayerController>(GetController());
+	if (!_playerController) return nullptr;
+
+	ADashboard_HUD* _HUD = Cast<ADashboard_HUD>(_playerController->GetHUD());
+
+	return _HUD;
+}
+
 
 bool AKart::Server_ValidateCheckpoint_Validate(ACheckPoint* _checkpoint)
 {
@@ -200,8 +253,16 @@ void AKart::OnRep_CurrentCheckpoint()
 
 void AKart::OnRep_CurrentLap()
 {
-	UKismetSystemLibrary::PrintString(this, "Lap changed !");
+	UKismetSystemLibrary::PrintString(this, TEXT("Lap changed !"));
+	if (IsLocallyControlled())
+	{
+		if (UDashboardWidget* _dashboardWidget = GetDashboardWidget())
+		{
+			_dashboardWidget->UpdateCurrentLapsDashboard(currentLap);
+		}
+	}
 }
+
 
 void AKart::Server_ValidateCheckpoint_Implementation(ACheckPoint* _checkpoint)
 {
