@@ -48,7 +48,6 @@ class MARIOKART_API AKart : public APawn
 	UPROPERTY(EditAnywhere)TObjectPtr<UStaticMeshComponent>mesh;
 
 	UPROPERTY(EditAnywhere)FInput input;
-	UPROPERTY(EditAnywhere)TObjectPtr<UKartMovementComponent>movement;
 	UPROPERTY(EditAnywhere)TObjectPtr<UInventoryComponent>inventory;
 	UPROPERTY(EditAnywhere)bool shootBehind = false;
 	UPROPERTY(ReplicatedUsing = OnRep_CurrentCheckpoint) int currentCheckPointIndex = 0;
@@ -57,6 +56,7 @@ class MARIOKART_API AKart : public APawn
 	UPROPERTY() int lapsCompleted = 0;
 	UPROPERTY() URaceSubSystem* raceSubSystem;
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)TObjectPtr<UKartMovementComponent>movement;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)TObjectPtr<UStunComponent>stunComponent;
 public:
 	FORCEINLINE TObjectPtr<UKartMovementComponent> GetMovement() { return movement; }

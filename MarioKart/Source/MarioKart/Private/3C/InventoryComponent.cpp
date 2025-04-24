@@ -90,13 +90,17 @@ UDashboardWidget* UInventoryComponent::GetDashboardWidget() const
 
 void UInventoryComponent::UpdateItemDashboard()
 {
+
 	if (UDashboardWidget* _dashboard = GetDashboardWidget())
 		_dashboard->UpdateItemsDashboard(items);
+
 }
 
 
 void UInventoryComponent::UpdateCoinDashboard()
 {
+
 	if (UDashboardWidget* _dashboard = GetDashboardWidget())
 		GetDashboardWidget()->UpdateItemsDashboard(items);
 }
+
