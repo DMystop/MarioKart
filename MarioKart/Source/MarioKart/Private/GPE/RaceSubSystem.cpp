@@ -65,7 +65,7 @@ void URaceSubSystem::UpdateRaceProgress()
 				onKartLapCompleted.Broadcast(_kartInfo.kart, _kartInfo.currentLap);
 
 				// if finished laps
-				if (_kartInfo.currentLap >=  3/*maxLaps*/)
+				if (_kartInfo.currentLap >=  2/*maxLaps*/)
 				{
 					onRaceFinish.Broadcast(_kartInfo.kart);
 					//raceStarted = false;
