@@ -2,6 +2,7 @@
 
 
 #include "Dashboard_HUD.h"
+#include <Kismet/KismetSystemLibrary.h>
 
 void ADashboard_HUD::BeginPlay()
 {
@@ -14,6 +15,9 @@ void ADashboard_HUD::BeginPlay()
 		if (currentDashboard)
 		{
 			currentDashboard->AddToViewport();
+			FTimerHandle _timer;
+			GetWorldTimerManager().SetTimer(_timer, [&]() { onWidgetLoaded.Broadcast(); }, 1.0f, false);
+			UKismetSystemLibrary::PrintString(this, "Hallo", true, true, FLinearColor::Red, 10.0f);
 		}
 	}
 }

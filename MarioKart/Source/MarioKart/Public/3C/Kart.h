@@ -16,6 +16,8 @@ class UInventoryComponent;
 class UStunComponent;
 class ACheckPoint;
 class URaceSubSystem;
+class UDashboardWidget;
+class ADashboard_HUD;
 USTRUCT()
 struct FInput
 {
@@ -56,6 +58,7 @@ class MARIOKART_API AKart : public APawn
 	UPROPERTY() int maxLap = 3;
 	UPROPERTY() int lapsCompleted = 0;
 	UPROPERTY() URaceSubSystem* raceSubSystem;
+	UPROPERTY() bool isBoundToHUD = false;
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)TObjectPtr<UStunComponent>stunComponent;
 public:
@@ -88,12 +91,16 @@ protected:
 
 	void InitInput();
 	void Init();
+	UFUNCTION() void TryBindToHUD();
+	UFUNCTION() void ApplyTotalLapsToDashboard();
 public:
 	void ToggleShootDirection(const FInputActionValue& _value);
 	void SetCurrentCheckpoint(int _checkpoint);
 	UFUNCTION(Server, Reliable, WithValidation)void Server_ValidateCheckpoint(ACheckPoint* _checkpoint);
 	bool Server_ValidateCheckpoint_Validate(ACheckPoint* _checkpoint);
 	void ValidateCheckpoint(ACheckPoint* _checkPoint);
+	UDashboardWidget* GetDashboardWidget() const;
+	ADashboard_HUD* GetDashboardHUD() const;
 	UFUNCTION()void OnRep_CurrentCheckpoint();
 	UFUNCTION()void OnRep_CurrentLap();
 
