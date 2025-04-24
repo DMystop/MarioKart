@@ -30,7 +30,6 @@ class MARIOKART_API UKartMovementComponent : public UActorComponent
 	UPROPERTY(EditAnywhere)bool addVelocity = false;
 	UPROPERTY(EditAnywhere)bool canMove = true;
 	UPROPERTY(EditAnywhere)bool onRoad = true;
-	UPROPERTY(EditAnywhere)bool isDrifting = false;
 	UPROPERTY(EditAnywhere)bool isJump = false;
 	UPROPERTY(EditAnywhere)FTimerHandle detectTimer ;
 	UPROPERTY(EditAnywhere)TArray<TEnumAsByte<EObjectTypeQuery>> layers;
@@ -47,7 +46,10 @@ class MARIOKART_API UKartMovementComponent : public UActorComponent
 	//Boost
 	UPROPERTY()FTimerHandle boostTimer;
 	bool boostIsActivate = false;
+	float driftBoost = 0;
 
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)bool isDrifting = false;
 public:
 	FORCEINLINE void SetAddVelocity(const FInputActionValue& _value)
 	{
@@ -68,6 +70,7 @@ public:
 	{
 		return onMeshMove;
 	}
+	
 public:
 	// Sets default values for this component's properties
 	UKartMovementComponent();
@@ -94,5 +97,5 @@ public:
 	void DriftOut(const FInputActionValue& _value);
 	void JumpToDrift(float _deltaTime);
 	void UpdateDriftKart(float _deltaTime);
-
+	void UpdateDriftBoost(float _deltaTime);
 };

@@ -18,8 +18,11 @@ class MARIOKART_API UStunComponent : public UActorComponent
 	UPROPERTY() FOnStun onStun;
 
 	UPROPERTY()FTimerHandle stun;
-	UPROPERTY()bool isStun = false;
 	UPROPERTY()float timeStun = 3.0f;
+
+protected:
+	UPROPERTY(BlueprintReadOnly)bool isStun = false;
+
 
 public:
 	FORCEINLINE FOnStun& OnStun()

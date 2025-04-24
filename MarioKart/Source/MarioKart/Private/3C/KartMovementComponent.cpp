@@ -41,7 +41,14 @@ void UKartMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	}
 	UpdateDriftKart(DeltaTime);
 	if (isDrifting)
+	{
 		RotateDrift(driftDirection);
+		UpdateDriftBoost(DeltaTime);
+	}
+	else
+	{
+		driftBoost = 0;
+	}
 	// ...
 }
 
@@ -229,6 +236,24 @@ void UKartMovementComponent::DriftEnter(const FInputActionValue& _value)
 
 void UKartMovementComponent::DriftOut(const FInputActionValue& _value)
 {
+
+	if (isDrifting)
+	{
+		if (driftBoost > 3.f)
+		{
+			Boost(100, 2);
+			UKismetSystemLibrary::PrintString(this, "Gros");
+		}
+
+		else if (driftBoost > 1.5f)
+		{
+			UKismetSystemLibrary::PrintString(this, "Petit");
+			Boost(50, 1);
+		}
+
+		driftBoost = 0;
+		
+	}
 	isDrifting = false;
 }
 
@@ -263,6 +288,11 @@ void UKartMovementComponent::UpdateDriftKart(float _deltaTime)
 	
 	if (!kart->HasAuthority())
 		onMeshMove.Broadcast(kart->GetMesh(), kart->GetMesh()->GetRelativeTransform());
+}
+
+void UKartMovementComponent::UpdateDriftBoost(float _deltaTime)
+{
+	driftBoost += _deltaTime;
 }
 
 
