@@ -115,6 +115,7 @@ protected:
 	void OnDestroySessionCompleted(FName _sessionName, bool _wasSuccessful);
 	void OnSessionFailure(const FUniqueNetId& _id, ESessionFailure::Type _failureType);
 	void OnNetworkFailure(UWorld* _world, UNetDriver* _driver, ENetworkFailure::Type _failureType, const FString& _error);
+	void OnSessionInviteAccepted(bool _success, int32 _userNum, TSharedPtr<const FUniqueNetId> UserId, const FOnlineSessionSearchResult& InviteResult);
 
 public:
 	UFUNCTION() void CreateSession();

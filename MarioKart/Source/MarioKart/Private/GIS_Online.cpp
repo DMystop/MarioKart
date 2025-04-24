@@ -43,6 +43,8 @@ void UGIS_Online::Initialize(FSubsystemCollectionBase& _collection)
 
 		session->OnSessionFailureDelegates.AddUObject(this, &UGIS_Online::OnSessionFailure);
 		GEngine->OnNetworkFailure().AddUObject(this, &UGIS_Online::OnNetworkFailure);
+
+		session->OnSessionUserInviteAcceptedDelegates.AddUObject(this, &UGIS_Online::OnSessionInviteAccepted);
 	}
 
 	if (IOnlineIdentityPtr _interface = online->GetIdentityInterface())
@@ -224,6 +226,24 @@ void UGIS_Online::OnSessionFailure(const FUniqueNetId& _id, ESessionFailure::Typ
 void UGIS_Online::OnNetworkFailure(UWorld* _world, UNetDriver* _driver, ENetworkFailure::Type _failureType, const FString& _error)
 {
 	LOG("Error => " + _error + " (" + ENetworkFailure::ToString(_failureType) + ")!", Red);
+}
+
+void UGIS_Online::OnSessionInviteAccepted(bool _success, int32 _userNum, TSharedPtr<const FUniqueNetId> UserId, const FOnlineSessionSearchResult& InviteResult)
+{
+	if (_success && InviteResult.IsValid())
+	{
+		UKismetSystemLibrary::PrintString(this,"UGIS_Online => OnSessionInviteAccepted");
+
+		if (session.IsValid())
+		{
+			session->JoinSession(_userNum, sessionName, InviteResult);
+		}
+	}
+	else
+	{
+		UKismetSystemLibrary::PrintString(this, "Session invite was not accepted or invalid!");
+
+	}
 }
 
 #pragma endregion
