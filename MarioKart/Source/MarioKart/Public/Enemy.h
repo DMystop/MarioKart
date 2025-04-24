@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "GameFramework/Pawn.h"
 #include "Enemy.generated.h"
 
 UCLASS()
-class MARIOKART_API AEnemy : public ACharacter
+class MARIOKART_API AEnemy : public APawn
 {
 	GENERATED_BODY()
 
