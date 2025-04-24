@@ -236,6 +236,7 @@ void UGIS_Online::OnSessionInviteAccepted(bool _success, int32 _userNum, TShared
 
 		if (session.IsValid())
 		{
+			UKismetSystemLibrary::PrintString(this, "OnSessionInviteAccepted => check session isvalid!", true, true, FLinearColor::Yellow, 5.0f);
 			session->JoinSession(_userNum, sessionName, InviteResult);
 		}
 	}
