@@ -99,6 +99,6 @@ void UInventoryComponent::UpdateItemDashboard()
 void UInventoryComponent::UpdateCoinDashboard()
 {
 	if (UDashboardWidget* _dashboard = GetDashboardWidget())
-		_dashboard->UpdateItemsDashboard(items);
+		_dashboard->UpdateCoinDashboard(coinCount);
 }
 

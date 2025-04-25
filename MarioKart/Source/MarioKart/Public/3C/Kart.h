@@ -65,6 +65,7 @@ public:
 	FORCEINLINE TObjectPtr<UKartMovementComponent> GetMovement() { return movement; }
 	FORCEINLINE TObjectPtr<UStaticMeshComponent> GetMesh() { return mesh; }
 	FORCEINLINE TObjectPtr<UInventoryComponent> GetInventory() { return inventory; }
+	FORCEINLINE TObjectPtr<UStunComponent> GetStun() { return stunComponent; }
 	FORCEINLINE bool GetShootDirection() const { return shootBehind; }
 
 	FORCEINLINE FOnLapCompleted& OnLapCompleted() { return onLapCompleted; }

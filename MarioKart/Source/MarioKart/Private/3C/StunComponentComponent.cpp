@@ -4,6 +4,7 @@
 #include <3C/Kart.h>
 #include "3C/InventoryComponent.h"
 #include <GPE/Coin.h>
+#include <3C/KartPlayerController.h>
 #include <Kismet/KismetSystemLibrary.h>
 
 // Sets default values for this component's properties
@@ -109,9 +110,9 @@ void UStunComponent::LoseAndDropCoins()
 					FVector _spawnLocation = _center + _offset;
 					FRotator _spawnRotation = FRotator::ZeroRotator;
 
-					ACoin* _coin = GetWorld()->SpawnActor<ACoin>(coinToSpawn, _spawnLocation, _spawnRotation);
-					_coin->SetCanRotate(false);
-					_coin->SetCanRespawn(false);
+					AKartPlayerController* _playerController = Cast<AKartPlayerController>(Cast<APawn>(GetOwner())->GetController());
+					onSpawnCoinActor.Broadcast(coinToSpawn, _spawnLocation, _spawnRotation, false, false);
+					// _playerController->ServerRPC_SpawnCoinActor(coinToSpawn, _spawnLocation, _spawnRotation, false, false);
 				}
 			}
 			else
