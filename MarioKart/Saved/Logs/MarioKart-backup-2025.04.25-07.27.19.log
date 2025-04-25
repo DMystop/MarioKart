@@ -1,0 +1,312 @@
+﻿Log file open, 04/25/25 09:25:38
+LogWindows: Failed to load 'aqProf.dll' (GetLastError=126)
+LogWindows: File 'aqProf.dll' does not exist
+LogProfilingDebugging: Loading WinPixEventRuntime.dll for PIX profiling (from ../../../Engine/Binaries/ThirdParty/Windows/WinPixEventRuntime/x64).
+LogWindows: Failed to load 'VtuneApi.dll' (GetLastError=126)
+LogWindows: File 'VtuneApi.dll' does not exist
+LogWindows: Failed to load 'VtuneApi32e.dll' (GetLastError=126)
+LogWindows: File 'VtuneApi32e.dll' does not exist
+LogWindows: Started CrashReportClient (pid=20348)
+LogWindows: Custom abort handler registered for crash reporting.
+LogInit: Display: Running engine for game: MarioKart
+LogCore: UTS: Unreal Trace Server launched successfully
+LogTrace: Initializing trace...
+LogCore: Display: Requested channels: 'cpu,gpu,frame,log,bookmark,screenshot,region'
+LogTrace: Finished trace initialization.
+LogCsvProfiler: Display: Metadata set : platform="Windows"
+LogCsvProfiler: Display: Metadata set : config="Development"
+LogCsvProfiler: Display: Metadata set : buildversion="++UE5+Release-5.4-CL-35576357"
+LogCsvProfiler: Display: Metadata set : engineversion="5.4.4-35576357+++UE5+Release-5.4"
+LogCsvProfiler: Display: Metadata set : os="Windows 11 (23H2) [10.0.22631.5189] "
+LogCsvProfiler: Display: Metadata set : cpu="GenuineIntel|Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz"
+LogCsvProfiler: Display: Metadata set : pgoenabled="0"
+LogCsvProfiler: Display: Metadata set : pgoprofilingenabled="0"
+LogCsvProfiler: Display: Metadata set : ltoenabled="0"
+LogCsvProfiler: Display: Metadata set : asan="0"
+LogCsvProfiler: Display: Metadata set : commandline="" "E:/P2 Medy/Unity/MarioKart/MarioKart/MarioKart.uproject"""
+LogCsvProfiler: Display: Metadata set : loginid="3d7d180e46e3d28abcf8cd955baa3974"
+LogCsvProfiler: Display: Metadata set : llm="0"
+LogStats: Stats thread started at 0.319705
+LogICUInternationalization: ICU TimeZone Detection - Raw Offset: +1:00, Platform Override: ''
+LogInit: Session CrashGUID >====================================================
+         Session CrashGUID >   UECC-Windows-E958A10347A54895215CB289EB89402F
+         Session CrashGUID >====================================================
+LogConfig: No local boot hotfix file found at: [../../../../P2 Medy/Unity/MarioKart/MarioKart/Saved/PersistentDownloadDir/HotfixForNextBoot.txt]
+LogConfig: Display: Loading Android ini files took 0.02 seconds
+LogConfig: Display: Loading IOS ini files took 0.03 seconds
+LogConfig: Display: Loading LinuxArm64 ini files took 0.04 seconds
+LogConfig: Display: Loading Linux ini files took 0.04 seconds
+LogConfig: Display: Loading Mac ini files took 0.03 seconds
+LogConfig: Display: Loading TVOS ini files took 0.03 seconds
+LogConfig: Display: Loading VulkanPC ini files took 0.03 seconds
+LogConfig: Display: Loading Unix ini files took 0.03 seconds
+LogConfig: Display: Loading Windows ini files took 0.03 seconds
+LogConfig: Display: Loading VisionOS ini files took 0.03 seconds
+LogPluginManager: Mounting Engine plugin ChaosCloth
+LogPluginManager: Mounting Engine plugin Bridge
+LogPluginManager: Mounting Engine plugin CmdLinkServer
+LogPluginManager: Mounting Engine plugin ChaosVD
+LogPluginManager: Found config from plugin[ChaosVD] Engine
+LogPluginManager: Mounting Engine plugin EnhancedInput
+LogPluginManager: Found config from plugin[EnhancedInput] Input
+LogPluginManager: Mounting Engine plugin FastBuildController
+LogPluginManager: Mounting Engine plugin MeshPainting
+LogPluginManager: Mounting Engine plugin RenderGraphInsights
+LogPluginManager: Mounting Engine plugin TraceUtilities
+LogPluginManager: Mounting Engine plugin XGEController
+LogPluginManager: Mounting Engine plugin WorldMetrics
+LogPluginManager: Mounting Engine plugin AISupport
+LogPluginManager: Mounting Engine plugin EnvironmentQueryEditor
+LogPluginManager: Mounting Engine plugin CameraShakePreviewer
+LogPluginManager: Mounting Engine plugin GameplayCameras
+LogPluginManager: Mounting Engine plugin AutomationUtils
+LogPluginManager: Mounting Engine plugin BackChannel
+LogPluginManager: Mounting Engine plugin ChaosCaching
+LogPluginManager: Mounting Engine plugin ChaosEditor
+LogPluginManager: Mounting Engine plugin CharacterAI
+LogPluginManager: Mounting Engine plugin ChaosNiagara
+LogPluginManager: Mounting Engine plugin ChaosUserDataPT
+LogPluginManager: Mounting Engine plugin ChaosSolverPlugin
+LogPluginManager: Mounting Engine plugin Dataflow
+LogPluginManager: Mounting Engine plugin FullBodyIK
+LogPluginManager: Mounting Engine plugin Fracture
+LogPluginManager: Mounting Engine plugin GeometryCollectionPlugin
+LogPluginManager: Mounting Engine plugin GeometryFlow
+LogPluginManager: Mounting Engine plugin MeshModelingToolsetExp
+LogPluginManager: Mounting Engine plugin LocalizableMessage
+LogPluginManager: Mounting Engine plugin OpenImageDenoise
+LogPluginManager: Mounting Engine plugin PlanarCut
+LogPluginManager: Mounting Engine plugin PlatformCrypto
+LogPluginManager: Mounting Engine plugin PythonScriptPlugin
+LogPluginManager: Mounting Engine plugin SkeletalReduction
+LogPluginManager: Mounting Engine plugin StructUtils
+LogPluginManager: Mounting Engine plugin StudioTelemetry
+LogPluginManager: Mounting Engine plugin ToolPresets
+LogPluginManager: Mounting Engine plugin Takes
+LogPluginManager: Mounting Engine plugin ACLPlugin
+LogPluginManager: Mounting Engine plugin AnimationData
+LogPluginManager: Mounting Engine plugin AnimationModifierLibrary
+LogPluginManager: Mounting Engine plugin BlendSpaceMotionAnalysis
+LogPluginManager: Mounting Engine plugin ControlRig
+LogPluginManager: Mounting Engine plugin ControlRigModules
+LogPluginManager: Mounting Engine plugin ControlRigSpline
+LogPluginManager: Mounting Engine plugin IKRig
+LogPluginManager: Mounting Engine plugin AlembicImporter
+LogPluginManager: Mounting Engine plugin OnlineBase
+LogPluginManager: Mounting Engine plugin OnlineServices
+LogPluginManager: Mounting Engine plugin OnlineSubsystem
+LogPluginManager: Mounting Engine plugin OnlineSubsystemNull
+LogPluginManager: Mounting Engine plugin OnlineSubsystemSteam
+LogPluginManager: Mounting Engine plugin OnlineSubsystemUtils
+LogPluginManager: Mounting Engine plugin InterchangeEditor
+LogPluginManager: Mounting Engine plugin Interchange
+LogPluginManager: Mounting Engine plugin InterchangeTests
+LogPluginManager: Mounting Engine plugin OodleNetwork
+LogPluginManager: Mounting Engine plugin ActorLayerUtilities
+LogPluginManager: Mounting Engine plugin UdpMessaging
+LogPluginManager: Mounting Engine plugin TcpMessaging
+LogPluginManager: Mounting Engine plugin AndroidFileServer
+LogPluginManager: Mounting Engine plugin AndroidDeviceProfileSelector
+LogPluginManager: Mounting Engine plugin AndroidMoviePlayer
+LogPluginManager: Mounting Engine plugin AndroidPermission
+LogPluginManager: Mounting Engine plugin AppleMoviePlayer
+LogPluginManager: Mounting Engine plugin AppleImageUtils
+LogPluginManager: Mounting Engine plugin AssetTags
+LogPluginManager: Mounting Engine plugin ArchVisCharacter
+LogPluginManager: Mounting Engine plugin AudioCapture
+LogPluginManager: Mounting Engine plugin AudioSynesthesia
+LogPluginManager: Mounting Engine plugin CableComponent
+LogPluginManager: Mounting Engine plugin ChunkDownloader
+LogPluginManager: Mounting Engine plugin AudioWidgets
+LogPluginManager: Mounting Engine plugin CustomMeshComponent
+LogPluginManager: Mounting Engine plugin ExampleDeviceProfileSelector
+LogPluginManager: Mounting Engine plugin GeometryCache
+LogPluginManager: Mounting Engine plugin GeometryProcessing
+LogPluginManager: Mounting Engine plugin GoogleCloudMessaging
+LogPluginManager: Mounting Engine plugin GooglePAD
+LogPluginManager: Mounting Engine plugin InputDebugging
+LogPluginManager: Found config from plugin[InputDebugging] Input
+LogPluginManager: Mounting Engine plugin IOSDeviceProfileSelector
+LogPluginManager: Mounting Engine plugin LinuxDeviceProfileSelector
+LogPluginManager: Mounting Engine plugin LocationServicesBPLibrary
+LogPluginManager: Mounting Engine plugin MeshModelingToolset
+LogPluginManager: Mounting Engine plugin Metasound
+LogPluginManager: Mounting Engine plugin MobilePatchingUtils
+LogPluginManager: Mounting Engine plugin MsQuic
+LogPluginManager: Mounting Engine plugin PropertyAccessEditor
+LogPluginManager: Mounting Engine plugin ProceduralMeshComponent
+LogPluginManager: Mounting Engine plugin ResonanceAudio
+LogPluginManager: Mounting Engine plugin RigVM
+LogPluginManager: Mounting Engine plugin SignificanceManager
+LogPluginManager: Mounting Engine plugin SoundFields
+LogPluginManager: Mounting Engine plugin WaveTable
+LogPluginManager: Mounting Engine plugin Synthesis
+LogPluginManager: Mounting Engine plugin WebMMoviePlayer
+LogPluginManager: Mounting Engine plugin WindowsDeviceProfileSelector
+LogPluginManager: Mounting Engine plugin WindowsMoviePlayer
+LogPluginManager: Mounting Engine plugin AnimationSharing
+LogPluginManager: Mounting Engine plugin CLionSourceCodeAccess
+LogPluginManager: Mounting Engine plugin CodeLiteSourceCodeAccess
+LogPluginManager: Mounting Engine plugin DumpGPUServices
+LogPluginManager: Mounting Engine plugin GitSourceControl
+LogPluginManager: Mounting Engine plugin NullSourceCodeAccess
+LogPluginManager: Mounting Engine plugin KDevelopSourceCodeAccess
+LogPluginManager: Mounting Engine plugin PerforceSourceControl
+LogPluginManager: Mounting Engine plugin N10XSourceCodeAccess
+LogPluginManager: Mounting Engine plugin PixWinPlugin
+LogPluginManager: Mounting Engine plugin PlasticSourceControl
+LogPluginManager: Mounting Engine plugin PluginUtils
+LogPluginManager: Mounting Engine plugin PropertyAccessNode
+LogPluginManager: Mounting Engine plugin RenderDocPlugin
+LogPluginManager: Mounting Engine plugin RiderSourceCodeAccess
+LogPluginManager: Mounting Engine plugin SubversionSourceControl
+LogPluginManager: Mounting Engine plugin TextureFormatOodle
+LogPluginManager: Mounting Engine plugin TraceDataFilters
+LogPluginManager: Mounting Engine plugin UObjectPlugin
+LogPluginManager: Mounting Engine plugin VisualStudioCodeSourceCodeAccess
+LogPluginManager: Mounting Engine plugin VisualStudioSourceCodeAccess
+LogPluginManager: Mounting Engine plugin XCodeSourceCodeAccess
+LogPluginManager: Mounting Engine plugin ActorSequence
+LogPluginManager: Mounting Engine plugin LevelSequenceEditor
+LogPluginManager: Mounting Engine plugin SequencerScripting
+LogPluginManager: Mounting Engine plugin TemplateSequence
+LogPluginManager: Mounting Engine plugin AssetManagerEditor
+LogPluginManager: Mounting Engine plugin BlueprintHeaderView
+LogPluginManager: Mounting Engine plugin ChangelistReview
+LogPluginManager: Mounting Engine plugin CryptoKeys
+LogPluginManager: Mounting Engine plugin CurveEditorTools
+LogPluginManager: Mounting Engine plugin EditorDebugTools
+LogPluginManager: Mounting Engine plugin EditorScriptingUtilities
+LogPluginManager: Mounting Engine plugin EngineAssetDefinitions
+LogPluginManager: Mounting Engine plugin FacialAnimation
+LogPluginManager: Mounting Engine plugin DataValidation
+LogPluginManager: Mounting Engine plugin GameplayTagsEditor
+LogPluginManager: Mounting Engine plugin GeometryMode
+LogPluginManager: Mounting Engine plugin MacGraphicsSwitching
+LogPluginManager: Mounting Engine plugin MaterialAnalyzer
+LogPluginManager: Mounting Engine plugin MeshLODToolset
+LogPluginManager: Mounting Engine plugin ModelingToolsEditorMode
+LogPluginManager: Mounting Engine plugin MobileLauncherProfileWizard
+LogPluginManager: Mounting Engine plugin ProxyLODPlugin
+LogPluginManager: Mounting Engine plugin PluginBrowser
+LogPluginManager: Mounting Engine plugin SequencerAnimTools
+LogPluginManager: Mounting Engine plugin SpeedTreeImporter
+LogPluginManager: Mounting Engine plugin UVEditor
+LogPluginManager: Mounting Engine plugin WorldPartitionHLODUtilities
+LogPluginManager: Mounting Engine plugin LauncherChunkInstaller
+LogPluginManager: Mounting Engine plugin Paper2D
+LogPluginManager: Mounting Engine plugin DatasmithContent
+LogPluginManager: Mounting Engine plugin GLTFExporter
+LogPluginManager: Mounting Engine plugin VariantManager
+LogPluginManager: Mounting Engine plugin VariantManagerContent
+LogPluginManager: Mounting Engine plugin NiagaraSimCaching
+LogPluginManager: Mounting Engine plugin Niagara
+LogPluginManager: Mounting Engine plugin AvfMedia
+LogPluginManager: Mounting Engine plugin AndroidMedia
+LogPluginManager: Mounting Engine plugin ImgMedia
+LogPluginManager: Mounting Engine plugin MediaCompositing
+LogPluginManager: Mounting Engine plugin MediaPlate
+LogPluginManager: Mounting Engine plugin MediaPlayerEditor
+LogPluginManager: Mounting Engine plugin WebMMedia
+LogPluginManager: Mounting Engine plugin WmfMedia
+LogPluginManager: Mounting Engine plugin MetaHumanProjectUtilities
+LogPluginManager: Mounting Engine plugin OnlineSubsystemGooglePlay
+LogPluginManager: Mounting Engine plugin XInputDevice
+LogPluginManager: Mounting Engine plugin OnlineSubsystemIOS
+LogPluginManager: Mounting Engine plugin PortableObjectFileDataSource
+LogPluginManager: Mounting Engine plugin LightMixer
+LogPluginManager: Mounting Engine plugin BaseCharacterFXEditor
+LogPluginManager: Mounting Engine plugin ObjectMixer
+LogPluginManager: Mounting Engine plugin SteamShared
+LogPluginManager: Mounting Engine plugin ContentBrowserAssetDataSource
+LogPluginManager: Mounting Engine plugin ContentBrowserClassDataSource
+LogPluginManager: Mounting Engine plugin ContentBrowserFileDataSource
+SourceControl: Revision control is disabled
+SourceControl: Revision control is disabled
+SourceControl: Revision control is disabled
+LogInit: Warning: Incompatible or missing module: MarioKart
+Running E:/UE_5.4/Engine/Build/BatchFiles/Build.bat Development Win64 -Project="E:/P2 Medy/Unity/MarioKart/MarioKart/MarioKart.uproject" -TargetType=Editor -Progress -NoEngineChanges -NoHotReloadFromIDE
+Using bundled DotNet SDK version: 6.0.302
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" Development Win64 -Project="E:/P2 Medy/Unity/MarioKart/MarioKart/MarioKart.uproject" -TargetType=Editor -Progress -NoEngineChanges -NoHotReloadFromIDE
+Log file: C:\Users\HANN3101\AppData\Local\UnrealBuildTool\Log.txt
+Available x64 toolchains (1):
+ * C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120
+    (Family=14.41.34120, FamilyRank=5, Version=14.41.34123, Is64Bit=True, ReleaseChannel=Latest, Architecture=x64)
+Visual Studio 2022 compiler version 14.41.34123 is not a preferred version. Please use the latest preferred version 14.38.33130
+Available x64 toolchains (1):
+ * C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120
+    (Family=14.41.34120, FamilyRank=5, Version=14.41.34123, Is64Bit=True, ReleaseChannel=Latest, Architecture=x64)
+Visual Studio 2022 compiler version 14.41.34123 is not a preferred version. Please use the latest preferred version 14.38.33130
+Using 'git status' to determine working set for adaptive non-unity build (E:\P2 Medy\Unity\MarioKart).
+Creating makefile for MarioKartEditor (no existing makefile)
+Available x64 toolchains (1):
+ * C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120
+    (Family=14.41.34120, FamilyRank=5, Version=14.41.34123, Is64Bit=True, ReleaseChannel=Latest, Architecture=x64)
+Visual Studio 2022 compiler version 14.41.34123 is not a preferred version. Please use the latest preferred version 14.38.33130
+Available x64 toolchains (1):
+ * C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120
+    (Family=14.41.34120, FamilyRank=5, Version=14.41.34123, Is64Bit=True, ReleaseChannel=Latest, Architecture=x64)
+Visual Studio 2022 compiler version 14.41.34123 is not a preferred version. Please use the latest preferred version 14.38.33130
+@progress push 5%
+Parsing headers for MarioKartEditor
+  Running Internal UnrealHeaderTool "E:\P2 Medy\Unity\MarioKart\MarioKart\MarioKart.uproject" "E:\P2 Medy\Unity\MarioKart\MarioKart\Intermediate\Build\Win64\MarioKartEditor\Development\MarioKartEditor.uhtmanifest" -WarningsAsErrors -installed
+Total of 62 written
+Reflection code generated for MarioKartEditor in 1.5543145 seconds
+@progress pop
+Building MarioKartEditor...
+Using Visual Studio 2022 14.41.34123 toolchain (C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120) and Windows 10.0.22621.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+Warning: Visual Studio 2022 compiler is not a preferred version
+[Adaptive Build] Excluded from MarioKart unity file: Banana.gen.cpp, BoostingZone.gen.cpp, Carapace.gen.cpp, CheckPoint.gen.cpp, Coin.gen.cpp, DashboardWidget.gen.cpp, Dashboard_HUD.gen.cpp, Enemy.gen.cpp, GIS_Online.gen.cpp, Goomba.gen.cpp, InventoryComponent.gen.cpp, Item.gen.cpp, ItemBoxSubSystem.gen.cpp, Kart.gen.cpp, KartMovementComponent.gen.cpp, KartPawn.gen.cpp, KartPlayerController.gen.cpp, LobbyWidget.gen.cpp, Lobby_HUD.gen.cpp, MainMenuWidget.gen.cpp, MarioKart.init.gen.cpp, MenuHUD.gen.cpp, Mushroom.gen.cpp, MysteryItemBox.gen.cpp, PC_Lobby.gen.cpp, RaceGameMode.gen.cpp, RaceSubSystem.gen.cpp, RepellingWall.gen.cpp, ServerListMenuWidget.gen.cpp, SessionSlotWidget.gen.cpp, StunComponentComponent.gen.cpp
+Determining max actions to execute in parallel (4 physical cores, 8 logical cores)
+  Executing up to 4 processes, one per physical core
+Using Parallel executor to run 37 action(s)
+------ Building 37 action(s) started ------
+[1/37] Resource Default.rc2
+[2/37] Compile [x64] SharedPCH.UnrealEd.Project.ValApi.Cpp20.cpp
+[3/37] Compile [x64] CheckPoint.gen.cpp
+[4/37] Compile [x64] Banana.gen.cpp
+[5/37] Compile [x64] BoostingZone.gen.cpp
+[6/37] Compile [x64] Carapace.gen.cpp
+[7/37] Compile [x64] Enemy.gen.cpp
+[8/37] Compile [x64] Coin.gen.cpp
+[9/37] Compile [x64] DashboardWidget.gen.cpp
+[10/37] Compile [x64] Dashboard_HUD.gen.cpp
+[11/37] Compile [x64] Goomba.gen.cpp
+[12/37] Compile [x64] InventoryComponent.gen.cpp
+[13/37] Compile [x64] ItemBoxSubSystem.gen.cpp
+[14/37] Compile [x64] GIS_Online.gen.cpp
+[15/37] Compile [x64] Item.gen.cpp
+[16/37] Compile [x64] KartPawn.gen.cpp
+[17/37] Compile [x64] KartMovementComponent.gen.cpp
+[18/37] Compile [x64] Kart.gen.cpp
+[19/37] Compile [x64] KartPlayerController.gen.cpp
+[20/37] Compile [x64] LobbyWidget.gen.cpp
+[21/37] Compile [x64] MarioKart.init.gen.cpp
+[22/37] Compile [x64] Lobby_HUD.gen.cpp
+[23/37] Compile [x64] MainMenuWidget.gen.cpp
+[24/37] Compile [x64] Mushroom.gen.cpp
+[25/37] Compile [x64] MenuHUD.gen.cpp
+[26/37] Compile [x64] MysteryItemBox.gen.cpp
+[27/37] Compile [x64] PC_Lobby.gen.cpp
+[28/37] Compile [x64] RaceGameMode.gen.cpp
+[29/37] Compile [x64] RaceSubSystem.gen.cpp
+[30/37] Compile [x64] RepellingWall.gen.cpp
+[31/37] Compile [x64] Module.MarioKart.cpp
+E:\P2 Medy\Unity\MarioKart\MarioKart\Source\MarioKart\Private\GIS_Online.cpp(238): error C2059: syntax error: '<<'
+E:\P2 Medy\Unity\MarioKart\MarioKart\Source\MarioKart\Private\GIS_Online.cpp(241): error C2059: syntax error: '=='
+E:\P2 Medy\Unity\MarioKart\MarioKart\Source\MarioKart\Private\GIS_Online.cpp(244): error C2059: syntax error: '>>'
+E:\P2 Medy\Unity\MarioKart\MarioKart\Source\MarioKart\Private\SessionSlotWidget.cpp(25): warning C4996: 'UTextBlock::Text': Direct access to Text is deprecated. Please use the getter or setter. Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.
+E:\P2 Medy\Unity\MarioKart\MarioKart\Source\MarioKart\Private\SessionSlotWidget.cpp(26): warning C4996: 'UTextBlock::Text': Direct access to Text is deprecated. Please use the getter or setter. Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.
+[32/37] Compile [x64] StunComponentComponent.gen.cpp
+[33/37] Compile [x64] ServerListMenuWidget.gen.cpp
+[34/37] Compile [x64] SessionSlotWidget.gen.cpp
+Total time in Parallel executor: 57.24 seconds
+Total execution time: 62.53 seconds
+LogInit: Warning: Still incompatible or missing module: MarioKart
+LogCore: Engine exit requested (reason: EngineExit() was called)
+LogExit: Preparing to exit.
+LogXGEController: Cannot use XGE Controller as Incredibuild is not installed on this machine.
+LogXGEController: Cleaning working directory: C:/Users/HANN3101/AppData/Local/Temp/UnrealXGEWorkingDir/
+LogPakFile: Destroying PakPlatformFile
+LogExit: Exiting.
+Log file closed, 04/25/25 09:27:19
