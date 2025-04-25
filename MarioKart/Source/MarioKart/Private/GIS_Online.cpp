@@ -75,6 +75,7 @@ void UGIS_Online::InitSessionSettings()
 	sessionSettings->bIsLANMatch = IS_LAN(online);
 
 	sessionSettings->Set(FName("SERVER_NAME"), serverName.ToString(), EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
+	sessionSettings->Set(FName("SESSION_NAME"), sessionName.ToString(), EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	sessionSettings->Set(FName("LEVEL_NAME"), levelPath, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	sessionSettings->Set(FName("CURRENT_PLAYERS"), FString::FromInt(1), EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	sessionSettings->Set(FName("MAX_PLAYERS"), FString::FromInt(4), EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
@@ -230,21 +231,28 @@ void UGIS_Online::OnNetworkFailure(UWorld* _world, UNetDriver* _driver, ENetwork
 
 void UGIS_Online::OnSessionInviteAccepted(bool _success, int32 _userNum, TSharedPtr<const FUniqueNetId> UserId, const FOnlineSessionSearchResult& InviteResult)
 {
-	if (_success && InviteResult.IsValid())
-	{
-		UKismetSystemLibrary::PrintString(this,"UGIS_Online => OnSessionInviteAccepted");
-
-		if (session.IsValid())
+		UKismetSystemLibrary::PrintString(this,"userNum :"+FString::FromInt(_userNum), true, true, FLinearColor::Green, 10.0f);
+		UKismetSystemLibrary::PrintString(this,"Session :"+ InviteResult.GetSessionIdStr(), true, true, FLinearColor::Green, 10.0f);
+		if (!_success || !InviteResult.IsValid())
 		{
+<<<<<<< HEAD
 			UKismetSystemLibrary::PrintString(this, "OnSessionInviteAccepted => check session isvalid!", true, true, FLinearColor::Yellow, 5.0f);
 			session->JoinSession(_userNum, sessionName, InviteResult);
+=======
+			UKismetSystemLibrary::PrintString(this, "Join invite failed!", true, true, FLinearColor::Red, 20.0f);
+			return;
+>>>>>>> Medy
 		}
-	}
-	else
-	{
-		UKismetSystemLibrary::PrintString(this, "Session invite was not accepted or invalid!");
 
-	}
+		sessionName = InviteResult.Session.SessionSettings.Settings.Contains("SESSION_NAME") ? *InviteResult.Session.SessionSettings.Settings.Find("SESSION_NAME")->Data.ToString() : FName("");
+		if (sessionName == "")
+		{
+			UKismetSystemLibrary::PrintString(this, "Join invite failed (Error while retrieving the session name)!", true, true, FLinearColor::Red, 20.0f);
+			return;
+		}
+
+		UKismetSystemLibrary::PrintString(this, "Join",true, true, FLinearColor::Red, 20.0f);
+		session->JoinSession(_userNum, sessionName, InviteResult);
 }
 
 #pragma endregion
@@ -307,6 +315,8 @@ void UGIS_Online::JoinSession(const FName& _sessionName, const FString& _levelPa
 		return;
 	}
 	LOG("Join session " + sessionName.ToString(), Magenta);
+
+	UKismetSystemLibrary::PrintString(this, "Session :"+_sessionIndex, true, true, FLinearColor::Green, 10.0f);
 	session->JoinSession(0, sessionName, _result[_sessionIndex]);
 }
 
