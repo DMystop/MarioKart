@@ -2,6 +2,9 @@
 #include "GPE/RaceSubSystem.h"
 #include <Kismet/KismetSystemLibrary.h>
 #include "3C/Kart.h"
+#include "GameFramework/PlayerStart.h"
+#include "GameFramework/PlayerState.h"
+#include <Kismet/GameplayStatics.h>
 
 
 ARaceGameMode::ARaceGameMode()
@@ -53,6 +56,41 @@ void ARaceGameMode::Tick(float DeltaSeconds)
 		}
 	}
 
+}
+
+void ARaceGameMode::SearchSpawn()
+{
+	if (spawnList.Num() == 0)
+	{
+		TArray<AActor*> _spawnFound;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), _spawnFound);
+
+		for (AActor* Actor : _spawnFound)
+		{
+			if (APlayerStart* _playerStart = Cast<APlayerStart>(Actor))
+			{
+				spawnList.Add(_playerStart);
+			}
+		}
+	}
+}
+
+
+int32 ARaceGameMode::SpawnIndexForController(AController* _player) const
+{
+	if (_player && _player->PlayerState)
+	{
+		int32 _playerID = _player->PlayerState->GetPlayerId();
+		return _playerID % spawnList.Num();
+	}
+	return 0;
+}
+
+AActor* ARaceGameMode::ChoosePlayerStart_Implementation(AController* Player)
+{
+	SearchSpawn();
+	int32 _playerID = SpawnIndexForController(Player);
+	return spawnList.IsValidIndex(_playerID) ? spawnList[_playerID] : Super::ChoosePlayerStart_Implementation(Player);
 }
 
 void ARaceGameMode::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
