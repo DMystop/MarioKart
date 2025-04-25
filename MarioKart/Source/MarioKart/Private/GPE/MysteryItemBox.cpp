@@ -8,6 +8,7 @@
 #include "3C/Kart.h"
 #include "3C/InventoryComponent.h"
 #include "GPE/ItemBoxSubSystem.h"
+#include "GPE/RespawnComponent.h"
 #include <Kismet/KismetSystemLibrary.h>
 
 AMysteryItemBox::AMysteryItemBox()
@@ -15,8 +16,10 @@ AMysteryItemBox::AMysteryItemBox()
 	PrimaryActorTick.bCanEverTick = true;
 	RootComponent = CreateDefaultSubobject<USceneComponent>("Root");
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
+	respawnComponent = CreateDefaultSubobject<URespawnComponent>("RespawnComponent");
 
 	mesh->SetupAttachment(RootComponent);
+	AddOwnedComponent(respawnComponent);
 	
 	bReplicates = true;
 	mesh->SetIsReplicated(true);
@@ -106,23 +109,24 @@ void AMysteryItemBox::NotifyActorBeginOverlap(AActor* OtherActor)
 		if (!_inventory)return;
 		_inventory->AddItem(GiveRandomItem());
 		//Destroy();
-		HandleTaken();
+
+		respawnComponent->HandleTaken();
 	}
 	
 }
 
-void AMysteryItemBox::HandleTaken()
-{
-	mesh->SetVisibility(false);
-	mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-	GetWorldTimerManager().SetTimer(respawnTimerHandle, this, &AMysteryItemBox::Respawn, respawnTime, false);
-}
-
-void AMysteryItemBox::Respawn()
-{
-	mesh->SetVisibility(true);
-	mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-}
-
+//void AMysteryItemBox::HandleTaken()
+//{
+//	mesh->SetVisibility(false);
+//	mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+//
+//	GetWorldTimerManager().SetTimer(respawnTimerHandle, this, &AMysteryItemBox::Respawn, respawnTime, false);
+//}
+//
+//void AMysteryItemBox::Respawn()
+//{
+//	mesh->SetVisibility(true);
+//	mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+//}
+//
 

@@ -3,6 +3,7 @@
 
 #include "GPE/Coin.h"
 #include "3C/InventoryComponent.h"
+#include <GPE/RespawnComponent.h>
 #include <Dashboard_HUD.h>
 
 ACoin::ACoin()
@@ -10,7 +11,9 @@ ACoin::ACoin()
 	PrimaryActorTick.bCanEverTick = true;
 	RootComponent = CreateDefaultSubobject<USceneComponent>("Root");
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
+	respawnComponent = CreateDefaultSubobject<URespawnComponent>("RespawnComponent");
 
+	AddOwnedComponent(respawnComponent);
 	mesh->SetupAttachment(RootComponent);
 }
 
@@ -33,6 +36,7 @@ void ACoin::Use(AKart* _targetKart)
 
 void ACoin::Rotate(float _delta)
 {
+	if (!canRotate) return;
 	FQuat _rotationDelta = FQuat(FRotator(0.f, rotationSpeed * _delta, 0.f));
 	mesh->AddLocalRotation(_rotationDelta, false, nullptr, ETeleportType::None);
 }
@@ -45,7 +49,8 @@ void ACoin::NotifyActorBeginOverlap(AActor* OtherActor)
 	if (_kart)
 	{
 		AddCoinToInventory(1, _kart);
-		Destroy();
+		if (canRespawn) respawnComponent->HandleTaken();
+		else Destroy();
 	}
 }
 

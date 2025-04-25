@@ -15,10 +15,12 @@ void UInventoryComponent::AddCoin(const int _count)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Dashboard widget not found while adding coin."));
+		UE_LOG(LogTemp, Warning, TEXT("Dashboard widget not found while modifying coin count."));
 	}
 	onCoinChange.Broadcast(coinCount);
+
 }
+
 
 
 UInventoryComponent::UInventoryComponent()
@@ -83,25 +85,20 @@ UDashboardWidget* UInventoryComponent::GetDashboardWidget() const
 
 	ADashboard_HUD* _HUD = Cast<ADashboard_HUD>(_playerController->GetHUD());
 	if (!_HUD) return nullptr;
-
 	return _HUD->GetCurrentDashboard();
-
 }
 
 
 void UInventoryComponent::UpdateItemDashboard()
 {
-
 	if (UDashboardWidget* _dashboard = GetDashboardWidget())
 		_dashboard->UpdateItemsDashboard(items);
-
 }
 
 
 void UInventoryComponent::UpdateCoinDashboard()
 {
-
 	if (UDashboardWidget* _dashboard = GetDashboardWidget())
-		GetDashboardWidget()->UpdateItemsDashboard(items);
+		_dashboard->UpdateItemsDashboard(items);
 }
 
