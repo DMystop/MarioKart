@@ -16,6 +16,9 @@ class MARIOKART_API UStunComponent : public UActorComponent
 	GENERATED_BODY()
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnStun, bool, _isStun);
 	UPROPERTY() FOnStun onStun;
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_FiveParams(FOnSpawnCoinActor, TSubclassOf<ACoin>, _coinToSpawn, const FVector&, _spawnLocation, const FRotator&, _spawnRotation, const bool, _canRespawn, const bool, _canRotate);
+	UPROPERTY() FOnSpawnCoinActor onSpawnCoinActor;
+
 
 	UPROPERTY(EditAnywhere, Category = "Coin Drop")	TSubclassOf<ACoin> coinToSpawn;
 	UPROPERTY()FTimerHandle stun;
@@ -26,6 +29,7 @@ protected:
 
 
 public:
+	FORCEINLINE FOnSpawnCoinActor& OnSpawnCoinActor() { return onSpawnCoinActor	;}
 	FORCEINLINE FOnStun& OnStun()
 	{
 		return  onStun;
