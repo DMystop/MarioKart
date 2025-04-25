@@ -22,7 +22,6 @@ class MARIOKART_API UInventoryComponent : public UActorComponent
 	UPROPERTY(EditAnywhere) bool canUse = true;
 	UPROPERTY(EditAnywhere) int maxCoinCount = 10;
 	UPROPERTY(EditAnywhere) int coinCount = 0;
-	UPROPERTY(EditAnywhere) int maxCoinCount = 10;
 public:
 	FORCEINLINE FOnUse& OnUse()
 	{
