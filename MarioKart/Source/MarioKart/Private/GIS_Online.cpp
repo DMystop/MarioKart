@@ -238,7 +238,6 @@ void UGIS_Online::OnSessionInviteAccepted(bool _success, int32 _userNum, TShared
 
 			UKismetSystemLibrary::PrintString(this, "Join invite failed!", true, true, FLinearColor::Red, 20.0f);
 			return;
-
 		}
 
 		sessionName = InviteResult.Session.SessionSettings.Settings.Contains("SESSION_NAME") ? *InviteResult.Session.SessionSettings.Settings.Find("SESSION_NAME")->Data.ToString() : FName("");
