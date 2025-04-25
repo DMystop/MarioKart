@@ -6,7 +6,9 @@
 
 void UInventoryComponent::AddCoin(const int _count)
 {
-	coinCount = (coinCount + _count > 10) ? 10 : coinCount + _count;
+	int _newCoinCount = coinCount + _count;
+
+	coinCount = FMath::Clamp(_newCoinCount, 0, maxCoinCount);
 
 	if (UDashboardWidget* _dashboard = GetDashboardWidget())
 	{
@@ -14,10 +16,10 @@ void UInventoryComponent::AddCoin(const int _count)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Dashboard widget not found while adding coin."));
+		UE_LOG(LogTemp, Warning, TEXT("Dashboard widget not found while modifying coin count."));
 	}
-
 }
+
 
 
 UInventoryComponent::UInventoryComponent()
@@ -82,25 +84,20 @@ UDashboardWidget* UInventoryComponent::GetDashboardWidget() const
 
 	ADashboard_HUD* _HUD = Cast<ADashboard_HUD>(_playerController->GetHUD());
 	if (!_HUD) return nullptr;
-
 	return _HUD->GetCurrentDashboard();
-
 }
 
 
 void UInventoryComponent::UpdateItemDashboard()
 {
-
 	if (UDashboardWidget* _dashboard = GetDashboardWidget())
 		_dashboard->UpdateItemsDashboard(items);
-
 }
 
 
 void UInventoryComponent::UpdateCoinDashboard()
 {
-
 	if (UDashboardWidget* _dashboard = GetDashboardWidget())
-		GetDashboardWidget()->UpdateItemsDashboard(items);
+		_dashboard->UpdateItemsDashboard(items);
 }
 

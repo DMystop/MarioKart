@@ -8,7 +8,7 @@
 #include "StunComponentComponent.generated.h"
 
 
-
+class ACoin;
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class MARIOKART_API UStunComponent : public UActorComponent
 {
@@ -17,6 +17,7 @@ class MARIOKART_API UStunComponent : public UActorComponent
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnStun, bool, _isStun);
 	UPROPERTY() FOnStun onStun;
 
+	UPROPERTY(EditAnywhere, Category = "Coin Drop")	TSubclassOf<ACoin> coinToSpawn;
 	UPROPERTY()FTimerHandle stun;
 	UPROPERTY()float timeStun = 3.0f;
 
@@ -30,17 +31,15 @@ public:
 		return  onStun;
 	}
 public:
-	// Sets default values for this component's properties
 	UStunComponent();
 
 protected:
-	// Called when the game starts
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	UFUNCTION(BlueprintCallable) void Stun();
+	void LoseAndDropCoins();
 	void StunAction(const FInputActionValue& _value);
 
 };

@@ -17,12 +17,13 @@ class MARIOKART_API UInventoryComponent : public UActorComponent
 	UPROPERTY(EditAnywhere)int maxCount = 2;
 	UPROPERTY(EditAnywhere) bool canUse = true;
 	UPROPERTY(EditAnywhere) int coinCount = 0;
+	UPROPERTY(EditAnywhere) int maxCoinCount = 10;
 public:
 	FORCEINLINE FOnUse& OnUse()
 	{
 		return onUse;
 	}
-	void AddCoin(const int _count);
+	FORCEINLINE int GetCoinCount() { return coinCount; }
 public:
 	// Sets default values for this component's properties
 	UInventoryComponent();
@@ -41,4 +42,5 @@ public:
 	UDashboardWidget* GetDashboardWidget() const;
 	void UpdateItemDashboard();
 	void UpdateCoinDashboard();
+	void AddCoin(const int _count);
 };
