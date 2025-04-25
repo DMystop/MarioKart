@@ -235,13 +235,10 @@ void UGIS_Online::OnSessionInviteAccepted(bool _success, int32 _userNum, TShared
 		UKismetSystemLibrary::PrintString(this,"Session :"+ InviteResult.GetSessionIdStr(), true, true, FLinearColor::Green, 10.0f);
 		if (!_success || !InviteResult.IsValid())
 		{
-<<<<<<< HEAD
-			UKismetSystemLibrary::PrintString(this, "OnSessionInviteAccepted => check session isvalid!", true, true, FLinearColor::Yellow, 5.0f);
-			session->JoinSession(_userNum, sessionName, InviteResult);
-=======
+
 			UKismetSystemLibrary::PrintString(this, "Join invite failed!", true, true, FLinearColor::Red, 20.0f);
 			return;
->>>>>>> Medy
+
 		}
 
 		sessionName = InviteResult.Session.SessionSettings.Settings.Contains("SESSION_NAME") ? *InviteResult.Session.SessionSettings.Settings.Find("SESSION_NAME")->Data.ToString() : FName("");
