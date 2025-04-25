@@ -47,6 +47,8 @@ class MARIOKART_API UKartMovementComponent : public UActorComponent
 	UPROPERTY()FTimerHandle boostTimer;
 	bool boostIsActivate = false;
 	float driftBoost = 0;
+	int coinCount = 0;
+	float coinBoostfactor = 0.00625;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)bool isDrifting = false;
@@ -98,4 +100,5 @@ public:
 	void JumpToDrift(float _deltaTime);
 	void UpdateDriftKart(float _deltaTime);
 	void UpdateDriftBoost(float _deltaTime);
+	UFUNCTION()void UpdateCoinCount(float _count);
 };
