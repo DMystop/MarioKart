@@ -6,7 +6,8 @@
 
 void UInventoryComponent::AddCoin(const int _count)
 {
-	coinCount = (coinCount + _count > 10) ? 10 : coinCount + _count;
+	coinCount += _count;
+	coinCount = coinCount> maxCoinCount ? maxCoinCount : coinCount<0 ? 0 :coinCount ;
 
 	if (UDashboardWidget* _dashboard = GetDashboardWidget())
 	{
@@ -16,7 +17,7 @@ void UInventoryComponent::AddCoin(const int _count)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Dashboard widget not found while adding coin."));
 	}
-
+	onCoinChange.Broadcast(coinCount);
 }
 
 

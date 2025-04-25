@@ -58,6 +58,7 @@ void AKart::Bind()
 {
 	stunComponent->OnStun().AddDynamic(movement.Get(), &UKartMovementComponent::SetMoveStun);
 	stunComponent->OnStun().AddDynamic(inventory.Get(), &UInventoryComponent::SetCanUseOnStun);
+	inventory->OnCoinChange().AddDynamic(movement.Get(), &UKartMovementComponent::UpdateCoinCount);
 }
 
 // Called every frame

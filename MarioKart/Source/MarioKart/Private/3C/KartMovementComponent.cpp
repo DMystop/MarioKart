@@ -59,7 +59,8 @@ void UKartMovementComponent::Accelerate(const FInputActionValue& _value)
 
 	if (onRoad)
 	{
-		currentSpeed = currentSpeed > maxSpeed ? maxSpeed : currentSpeed;
+		float _maxSpeedCoin = maxSpeed + coinCount * (maxSpeed * coinBoostfactor);
+		currentSpeed = currentSpeed > _maxSpeedCoin ? _maxSpeedCoin : currentSpeed;
 
 	}
 	else
@@ -293,6 +294,11 @@ void UKartMovementComponent::UpdateDriftKart(float _deltaTime)
 void UKartMovementComponent::UpdateDriftBoost(float _deltaTime)
 {
 	driftBoost += _deltaTime;
+}
+
+void UKartMovementComponent::UpdateCoinCount(float _count)
+{
+	coinCount = _count;
 }
 
 
